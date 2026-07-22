@@ -1,4 +1,8 @@
 ---
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource/jetbrains-mono/800.css';
 import '../styles/global.css';
 
 interface Props {
@@ -37,7 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
   </head>
-  <body class="bg-bg text-text antialiased">
+  <body class="bg-bg text-text antialiased" data-pending="true">
     <slot />
   </body>
 </html>

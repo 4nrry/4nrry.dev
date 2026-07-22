@@ -1,0 +1,53 @@
+<header class="mx-auto max-w-5xl px-6 pt-16 sm:pt-24 pb-10">
+  <p class="font-mono text-xs sm:text-sm text-faint">
+    anrry@4nrry.dev:~$ <span class="text-accent">replay</span> --since "2 years ago"
+  </p>
+  <h1 class="mt-6 font-mono text-5xl sm:text-7xl font-extrabold tracking-tight">Anrry Petrin</h1>
+  <p class="mt-4 max-w-xl text-lg text-muted">
+    Software engineer. I build IoT platforms, fintech and dev tools, and I ship every day.
+  </p>
+
+  <dl class="mt-10 grid max-w-2xl grid-cols-3 gap-4">
+    <div>
+      <dd id="counter-contributions" class="font-mono text-3xl sm:text-4xl font-extrabold text-accent-bright">···</dd>
+      <dt class="mt-1 font-mono text-[0.65rem] sm:text-xs text-faint">contributions</dt>
+    </div>
+    <div>
+      <dd id="counter-prs" class="font-mono text-3xl sm:text-4xl font-extrabold text-accent-bright">···</dd>
+      <dt class="mt-1 font-mono text-[0.65rem] sm:text-xs text-faint">merged pull requests</dt>
+    </div>
+    <div>
+      <dd id="counter-streak" class="font-mono text-3xl sm:text-4xl font-extrabold text-accent-bright">···</dd>
+      <dt class="mt-1 font-mono text-[0.65rem] sm:text-xs text-faint">longest streak, days</dt>
+    </div>
+  </dl>
+
+  <div class="mt-10">
+    <div class="overflow-x-auto pb-2">
+      <canvas id="viz-calendar" class="shimmer w-full min-w-[640px] rounded-md"></canvas>
+    </div>
+    <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <p id="calendar-ticker" class="font-mono text-xs text-accent" aria-live="off"></p>
+      <span class="flex-1"></span>
+      <p id="sync-chip" class="font-mono text-[0.65rem] text-faint">connecting to the worker</p>
+      <button
+        id="replay-hero"
+        type="button"
+        class="rounded border border-border px-2 py-1 font-mono text-[0.65rem] text-muted transition-colors hover:border-accent hover:text-accent-bright"
+      >
+        replay
+      </button>
+    </div>
+    <p class="mt-4 max-w-2xl text-sm text-faint">
+      Each cell is one day of the last two years, synced live from the GitHub API. Most of this work
+      lives in private repositories; the totals count it anyway.
+    </p>
+    <details class="viz-table mt-3">
+      <summary>data table: contributions by month</summary>
+      <table>
+        <thead><tr><th>month</th><th>contributions</th></tr></thead>
+        <tbody id="table-months-body"></tbody>
+      </table>
+    </details>
+  </div>
+</header>

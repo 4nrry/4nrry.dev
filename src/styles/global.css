@@ -3,13 +3,24 @@
 @theme {
   --color-bg: #09090b;
   --color-card: #18181b;
+  --color-card-deep: #101013;
   --color-border: #27272a;
   --color-text: #fafafa;
   --color-muted: #a1a1aa;
-  --color-accent: #34d399;
+  --color-faint: #52525b;
+
+  /* Site accent: amber phosphor. Marks use --color-accent (validated for the
+     dark surface); --color-accent-bright is display-text only, never a mark. */
+  --color-accent: #d97706;
+  --color-accent-bright: #ffb224;
+
+  /* Org identity colors, categorical, fixed order, CVD-validated. */
+  --color-org-smart: #16a34a;
+  --color-org-lotvs: #6366f1;
+  --color-org-ocean: #0891b2;
 
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -19,8 +30,117 @@ html {
   scroll-behavior: smooth;
 }
 
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Terminal-path section eyebrow */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+.eyebrow::before {
+  content: "~/";
+  color: var(--color-faint);
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+
+/* Skeleton shimmer while the dataset is loading */
+[data-pending="true"] .shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-card);
+}
+[data-pending="true"] .shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.04), transparent);
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Chart tooltip (single shared element, positioned by anim.ts) */
+.viz-tooltip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--color-card-deep);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.viz-tooltip[data-show="true"] {
+  opacity: 1;
+}
+
+/* Data tables tucked under charts */
+.viz-table summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-faint);
+}
+.viz-table summary:hover {
+  color: var(--color-muted);
+}
+.viz-table table {
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  border-collapse: collapse;
+}
+.viz-table td,
+.viz-table th {
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+/* Org card mini-bars reveal on scroll */
+.org-card .org-bar {
+  width: var(--w);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .org-card .org-bar {
+    width: 0;
+    transition: width 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .org-card.revealed .org-bar {
+    width: var(--w);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  [data-pending="true"] .shimmer::after {
+    animation: none;
   }
 }
