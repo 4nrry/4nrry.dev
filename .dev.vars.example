@@ -1,0 +1,5 @@
+# Copy to .dev.vars (gitignored) and fill in.
+# GITHUB_TOKEN: read-only PAT used by the sync pipeline.
+# SYNC_SECRET: bearer token for POST /api/sync (any random hex).
+GITHUB_TOKEN=
+SYNC_SECRET=

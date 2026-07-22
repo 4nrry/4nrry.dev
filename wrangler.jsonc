@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "4nrry-dev",
+  "account_id": "0ccff702fc99fc5e354e9f9008303490",
+  "compatibility_date": "2026-07-22",
+  "main": "worker/index.ts",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "PORTFOLIO_KV",
+      "id": "4de885b3752648b9bf214234c2c51d97"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 */6 * * *"]
+  },
+  "routes": [
+    { "pattern": "4nrry.dev", "custom_domain": true },
+    { "pattern": "www.4nrry.dev", "custom_domain": true }
+  ],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+}
