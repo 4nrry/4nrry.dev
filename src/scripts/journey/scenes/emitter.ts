@@ -15,7 +15,7 @@ interface EmitterGeo {
 export function emitterScene(): Scene {
   return {
     id: 'emitter',
-    ownsPacket: true,
+    ownsPacketAt: (local) => local > 0.75 && local < 1,
     resolve: () => document.querySelector('[data-journey="hero"]'),
     span: (rect) => ({ startY: rect.top, endY: rect.bottom - 24 }),
     measure: (_element, rect) =>
@@ -58,7 +58,7 @@ export function emitterScene(): Scene {
       }
 
       // Birth: the packet slides from the probe down to the emission point.
-      if (local > 0.75) {
+      if (local > 0.75 && local < 1) {
         const t = (local - 0.75) / 0.25;
         const fromY = pileY - 28;
         const packetY = frame.toViewportY(fromY + (emitY - fromY) * t);

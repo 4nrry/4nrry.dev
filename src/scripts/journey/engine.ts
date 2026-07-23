@@ -34,8 +34,12 @@ export interface Scene {
   resolve(): Element | null;
   span(rect: DocRect, batch: MeasureBatch): { startY: number; endY: number };
   measure(element: Element, rect: DocRect, batch: MeasureBatch): unknown | null;
-  /** While the packet is inside this scene, the scene draws the packet itself. */
-  ownsPacket?: boolean;
+  /**
+   * When the packet is inside this scene's span, returns whether the scene is
+   * drawing the packet itself right now (engine then suppresses the default
+   * spine packet). Scenes must never draw a spine-state packet of their own.
+   */
+  ownsPacketAt?(local: number, geo: unknown): boolean;
   draw(frame: FrameContext, local: number, geo: unknown, rect: DocRect): void;
 }
 
@@ -265,13 +269,17 @@ export class JourneyEngine {
 
     const viewTop = scrollY - 100;
     const viewBottom = scrollY + vp.h + 100;
+    // Ownership belongs only to the segment the packet is actually inside.
+    const active = this.segments.find((s) => packetDocY >= s.startY && packetDocY < s.endY);
     let packetOwned = false;
     for (const segment of this.segments) {
       if (segment.rect.bottom < viewTop || segment.rect.top > viewBottom) continue;
       const local = Math.min(Math.max((packetDocY - segment.startY) / (segment.endY - segment.startY || 1), 0), 1);
       if (this.mode === 'full') {
         segment.scene.draw(frame, local, segment.geo, segment.rect);
-        if (segment.scene.ownsPacket && local > 0 && local < 1) packetOwned = true;
+        if (segment === active && segment.scene.ownsPacketAt?.(local, segment.geo)) {
+          packetOwned = true;
+        }
       }
       if (this.debug) this.drawDebugSegment(frame, segment, local);
     }

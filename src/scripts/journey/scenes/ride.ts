@@ -59,7 +59,7 @@ export const rideProbe: RideProbe = { point: (geo, t) => routePosition(geo as Ri
 export function rideScene(id: string, articleIndex: number, route: string): Scene {
   return {
     id,
-    ownsPacket: true,
+    ownsPacketAt: (local, geo) => !(geo as RideGeo).fallback && local > 0.08 && local < 0.92,
     resolve: () =>
       document.querySelector(`#section-systems article:nth-of-type(${articleIndex})`),
     span: (rect) => ({ startY: rect.top, endY: rect.bottom }),
@@ -100,19 +100,14 @@ export function rideScene(id: string, articleIndex: number, route: string): Scen
       if (rideGeo.fallback) {
         const y = frame.toViewportY(rideGeo.anchorY);
         drawPulseRing(ctx, vp.spineX, y, local, frame.colors.accent);
-        const packetY = frame.toViewportY(frame.packetDocY);
-        drawPacket(ctx, vp.spineX, packetY, frame.colors.accent, frame.colors.bright, 5);
         return;
       }
 
       const entry = rideGeo.entry!;
       const entryView = { x: entry.x, y: frame.toViewportY(entry.y) };
 
-      if (local <= 0.08 || local >= 0.92) {
-        const y = frame.toViewportY(frame.packetDocY);
-        drawPacket(ctx, vp.spineX, y, frame.colors.accent, frame.colors.bright, 6);
-        return;
-      }
+      // Outside the ride window the engine's default spine packet rules.
+      if (local <= 0.08 || local >= 0.92) return;
 
       ctx.save();
       if (rideGeo.clipRect) {
@@ -124,16 +119,11 @@ export function rideScene(id: string, articleIndex: number, route: string): Scen
 
       const t = (local - 0.08) / 0.84;
 
-      // Connector from the spine to the diagram entry, then traveled trail.
-      ctx.strokeStyle = frame.colors.accent;
-      ctx.globalAlpha = 0.35;
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([3, 4]);
-      ctx.beginPath();
-      ctx.moveTo(vp.spineX, entryView.y);
-      ctx.lineTo(entryView.x, entryView.y);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      // The packet hops from the spine into the diagram: a brief flash at the
+      // entry instead of a connector line crossing the text column.
+      if (t < 0.1) {
+        drawPulseRing(ctx, entryView.x, entryView.y, t / 0.1, frame.colors.accent);
+      }
 
       const TRAIL_STEPS = 36;
       ctx.beginPath();
