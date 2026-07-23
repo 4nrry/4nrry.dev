@@ -122,6 +122,15 @@ html {
   text-align: left;
 }
 
+/* Scroll-journey overlay: above content, below tooltip (z-50), never
+   intercepts input. */
+.journey-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+
 /* Org card mini-bars reveal on scroll */
 .org-card .org-bar {
   width: var(--w);
