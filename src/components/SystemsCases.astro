@@ -15,37 +15,36 @@
       <p class="font-mono text-xs text-faint">firmware to mobile, 2 engineers</p>
     </header>
 
-    <div class="mt-6 grid gap-8 lg:grid-cols-2">
-      <div class="flex flex-col gap-4 text-sm leading-relaxed text-muted">
-        <p>
-          <span class="font-mono text-xs text-accent">need</span><br />
-          Field hardware measuring compost piles for multiple customers. The sensor lineup would
-          keep changing as the product learned, and at the start there was exactly one engineer:
-          me.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">decisions</span><br />
-          Device traffic and human traffic enter through separate gateways: different auth,
-          different failure tolerance. Behind them, domain services small enough for one person to
-          own end to end. Telemetry is metric-first: a sensor catalog describes each metric, and
-          readings reference the catalog instead of hardcoding one column per sensor. New hardware
-          lands as catalog rows, not schema migrations. Risky launches hide behind feature flags
-          per environment.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">trade-offs</span><br />
-          The metric-first model taxes ad-hoc SQL, paid deliberately because hardware iteration
-          was the real constraint. Many small services add deploy surface, paid back by
-          independent shipping once the team became two.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">outcome</span><br />
-          The platform runs from C++ firmware through the cloud to a React Native app, operated by
-          two engineers, and the same catalog powers a public API and an MCP server for LLMs.
-        </p>
-      </div>
+    <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+      <p>
+        <span class="font-mono text-xs text-accent">need</span><br />
+        Field hardware measuring compost piles for multiple customers. The sensor lineup would
+        keep changing as the product learned, and at the start there was exactly one engineer:
+        me.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">decisions</span><br />
+        Device traffic and human traffic enter through separate gateways: different auth,
+        different failure tolerance. Behind them, domain services small enough for one person to
+        own end to end. Telemetry is metric-first: a sensor catalog describes each metric, and
+        readings reference the catalog instead of hardcoding one column per sensor. New hardware
+        lands as catalog rows, not schema migrations. Risky launches hide behind feature flags
+        per environment.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">trade-offs</span><br />
+        The metric-first model taxes ad-hoc SQL, paid deliberately because hardware iteration
+        was the real constraint. Many small services add deploy surface, paid back by
+        independent shipping once the team became two.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">outcome</span><br />
+        The platform runs from C++ firmware through the cloud to a React Native app, operated by
+        two engineers, and the same catalog powers a public API and an MCP server for LLMs.
+      </p>
+    </div>
 
-      <div class="flex flex-col gap-6">
+    <div class="mt-8 flex flex-col gap-6">
         <figure>
           <div class="overflow-x-auto">
             <svg viewBox="0 0 640 260" class="w-full min-w-[560px]" role="img" aria-label="Smart Compost topology: devices reach domain services through a device gateway; web and mobile apps reach the same services through a user gateway.">
@@ -126,7 +125,6 @@
             new sensor = new row, not a migration
           </figcaption>
         </figure>
-      </div>
     </div>
   </article>
 
@@ -141,36 +139,35 @@
       </p>
     </header>
 
-    <div class="mt-6 grid gap-8 lg:grid-cols-2">
-      <div class="flex flex-col gap-4 text-sm leading-relaxed text-muted">
-        <p>
-          <span class="font-mono text-xs text-accent">need</span><br />
-          Two years of work, 97% of it in private repos. Show it publicly, keep it current with
-          zero upkeep, and make "nothing private leaks" a property you can verify, not a promise.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">decisions</span><br />
-          One Cloudflare Worker owns everything: static assets, a tiny API, and a cron that
-          re-syncs GitHub every six hours. The sync materializes a single public-safe JSON
-          document. Per-repo queries are generated from an allowlist, so private repo names are
-          never even requested; a sanitizer then walks the final document and the publish fails
-          closed on any violation, leaving the last good dataset serving.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">trade-offs</span><br />
-          Six-hour freshness instead of realtime. KV instead of a database, because the artifact
-          is one document, not a query workload. A blocklist would have been simpler, but this
-          repo is public and a blocklist of private names would itself be the leak.
-        </p>
-        <p>
-          <span class="font-mono text-xs text-accent">outcome</span><br />
-          Every number on this page comes from
-          <a class="underline underline-offset-2 hover:text-text" href="/api/portfolio.json">/api/portfolio.json</a>,
-          and the sanitizer suite plus leak checker ship in the open.
-        </p>
-      </div>
+    <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+      <p>
+        <span class="font-mono text-xs text-accent">need</span><br />
+        Two years of work, 97% of it in private repos. Show it publicly, keep it current with
+        zero upkeep, and make "nothing private leaks" a property you can verify, not a promise.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">decisions</span><br />
+        One Cloudflare Worker owns everything: static assets, a tiny API, and a cron that
+        re-syncs GitHub every six hours. The sync materializes a single public-safe JSON
+        document. Per-repo queries are generated from an allowlist, so private repo names are
+        never even requested; a sanitizer then walks the final document and the publish fails
+        closed on any violation, leaving the last good dataset serving.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">trade-offs</span><br />
+        Six-hour freshness instead of realtime. KV instead of a database, because the artifact
+        is one document, not a query workload. A blocklist would have been simpler, but this
+        repo is public and a blocklist of private names would itself be the leak.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">outcome</span><br />
+        Every number on this page comes from
+        <a class="underline underline-offset-2 hover:text-text" href="/api/portfolio.json">/api/portfolio.json</a>,
+        and the sanitizer suite plus leak checker ship in the open.
+      </p>
+    </div>
 
-      <figure>
+    <figure class="mt-8">
         <div class="overflow-x-auto">
           <svg viewBox="0 0 640 210" class="w-full min-w-[560px]" role="img" aria-label="Site pipeline: a cron-driven sync reads the GitHub API, builds queries from an allowlist, aggregates, passes a sanitize gate that fails closed, writes one JSON document to KV, and the page reads it through the API.">
             <g font-family="JetBrains Mono, monospace" font-size="11">
@@ -219,7 +216,6 @@
           fail-closed by design: the gate sits before the only write
         </figcaption>
       </figure>
-    </div>
   </article>
 
   <p class="mt-6 font-mono text-xs text-faint">
