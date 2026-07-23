@@ -20,6 +20,8 @@ export interface CalendarReplayOptions {
     streak: { element: HTMLElement; target: number };
   };
   ticker: HTMLElement | null;
+  words?: { ticker: string; one: string; many: string };
+  weekdayGutter?: string[];
 }
 
 const GUTTER_LEFT = 30;
@@ -37,6 +39,8 @@ interface Cell {
 
 export function createCalendarReplay(canvas: HTMLCanvasElement, options: CalendarReplayOptions): Viz {
   const { calendar, monthLabels, monthlyTotals, counters, ticker } = options;
+  const words = options.words ?? { ticker: 'contributions', one: 'contribution', many: 'contributions' };
+  const weekdayGutter = options.weekdayGutter ?? WEEKDAY_LABELS;
 
   const firstDate = calendar[0]?.[0] ?? '2024-01-01';
   const firstWeekday = (new Date(`${firstDate}T00:00:00Z`).getUTCDay() + 6) % 7;
@@ -88,7 +92,7 @@ export function createCalendarReplay(canvas: HTMLCanvasElement, options: Calenda
 
     context.font = '9px "JetBrains Mono", monospace';
     context.fillStyle = themeColor('--color-faint');
-    WEEKDAY_LABELS.forEach((label, row) => {
+    weekdayGutter.forEach((label, row) => {
       if (label) context.fillText(label, 0, GUTTER_TOP + row * step + cell - 1);
     });
 
@@ -144,7 +148,7 @@ export function createCalendarReplay(canvas: HTMLCanvasElement, options: Calenda
       );
       const label = monthLabels[monthIndex] ?? '';
       const total = monthlyTotals[monthIndex] ?? 0;
-      ticker.textContent = `${label} · ${formatInt(total)} contributions`;
+      ticker.textContent = `${label} · ${formatInt(total)} ${words.ticker}`;
     }
   }
 
@@ -157,7 +161,7 @@ export function createCalendarReplay(canvas: HTMLCanvasElement, options: Calenda
     if (!inCell) return null;
     const hit = cells.find((c) => c.week === week && c.weekday === weekday);
     if (!hit) return null;
-    return `${hit.date} · ${formatInt(hit.count)} contribution${hit.count === 1 ? '' : 's'}`;
+    return `${hit.date} · ${formatInt(hit.count)} ${hit.count === 1 ? words.one : words.many}`;
   });
 
   return { render, durationMs: 9000 };

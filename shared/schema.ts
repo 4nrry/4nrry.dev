@@ -18,6 +18,8 @@ export interface OrgSummary {
   login: string;
   displayName: string;
   narrative: string;
+  /** PT-BR variant; clients fall back to `narrative` when absent. */
+  narrativePt?: string;
   accent: string;
   prCount: number;
   repoCount: number;
@@ -36,6 +38,8 @@ export interface OpenSourceCard {
   /** owner/name, all allowlisted. First entry is the primary link target. */
   repos: string[];
   blurb: string;
+  /** PT-BR variant; clients fall back to `blurb` when absent. */
+  blurbPt?: string;
   url: string;
   tech: string[];
   stars?: number;

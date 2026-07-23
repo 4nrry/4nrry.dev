@@ -4,42 +4,43 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource/jetbrains-mono/800.css';
 import '../styles/global.css';
+import { resolveLocale, ui } from '../i18n/ui';
 
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const {
-  title = 'Anrry Petrin — Software Engineer',
-  description = 'Two years of shipping, replayed. IoT platforms, fintech, dev tools and open source by Anrry Petrin.',
-} = Astro.props;
+const locale = resolveLocale(Astro.currentLocale);
+const t = ui[locale].layout;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const enUrl = new URL('/', Astro.site);
+const ptUrl = new URL('/pt/', Astro.site);
+const ogImage = new URL(t.ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={ptUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
+    <meta name="twitter:title" content={t.title} />
+    <meta name="twitter:description" content={t.description} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="bg-bg text-text antialiased" data-pending="true">
     <slot />

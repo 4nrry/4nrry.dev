@@ -212,6 +212,7 @@ export function aggregate(raw: RawSyncData, windows: SyncWindows, now: Date): Po
       login,
       displayName: meta?.displayName ?? login,
       narrative: meta?.narrative ?? '',
+      narrativePt: meta?.narrativePt,
       accent: meta?.accent ?? '#a1a1aa',
       prCount: orgCountAlias ? count(raw.counts, orgCountAlias) : 0,
       repoCount: node.repositories.totalCount,
@@ -255,6 +256,7 @@ export function aggregate(raw: RawSyncData, windows: SyncWindows, now: Date): Po
       title: card.title,
       repos: [...card.repos],
       blurb: card.blurb,
+      blurbPt: card.blurbPt,
       url: card.url,
       tech: [...card.tech],
     };

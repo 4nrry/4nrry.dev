@@ -1,9 +1,12 @@
+---
+import { resolveLocale, ui } from '../i18n/ui';
+const t = ui[resolveLocale(Astro.currentLocale)].repos;
+---
+
 <section id="section-repos" class="mx-auto max-w-5xl px-6 py-14 sm:py-16">
   <p class="eyebrow">repos</p>
-  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">Where the PRs landed</h2>
-  <p class="mt-3 max-w-2xl text-muted">
-    Top repositories by pull requests I authored in the window, colored by org.
-  </p>
+  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">{t.title}</h2>
+  <p class="mt-3 max-w-2xl text-muted">{t.intro}</p>
   <ul class="mt-6 flex flex-wrap gap-4" aria-hidden="true">
     <li class="flex items-center gap-2 font-mono text-xs text-muted">
       <span class="inline-block h-2.5 w-2.5 rounded-sm bg-org-smart"></span> Smart Compost
@@ -17,9 +20,9 @@
   </ul>
   <canvas id="viz-repos" class="shimmer mt-4 w-full rounded-md"></canvas>
   <details class="viz-table mt-3">
-    <summary>data table: repositories</summary>
+    <summary>{t.tableSummary}</summary>
     <table>
-      <thead><tr><th>repository</th><th>org</th><th>PRs</th></tr></thead>
+      <thead><tr><th>{t.tableRepo}</th><th>{t.tableOrg}</th><th>{t.tablePrs}</th></tr></thead>
       <tbody id="table-repos-body"></tbody>
     </table>
   </details>

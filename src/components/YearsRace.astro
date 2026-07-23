@@ -1,10 +1,13 @@
+---
+import { resolveLocale, ui } from '../i18n/ui';
+const t = ui[resolveLocale(Astro.currentLocale)].jump;
+---
+
 <section id="section-jump" class="mx-auto max-w-5xl px-6 py-14 sm:py-16">
   <p class="eyebrow">velocity</p>
-  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">The jump</h2>
+  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">{t.title}</h2>
   <p class="mt-3 max-w-2xl text-muted">
-    Year one I was finding a rhythm. Year two I rebuilt the way I work around AI agents and shipped
-    <span data-field="multiplier" class="font-mono font-bold text-accent-bright">···</span>
-    the contributions.
+    {t.beforeMultiplier}<span data-field="multiplier" class="font-mono font-bold text-accent-bright">···</span>{t.afterMultiplier}
   </p>
   <canvas id="viz-years" class="shimmer mt-8 w-full rounded-md"></canvas>
 </section>

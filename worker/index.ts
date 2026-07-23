@@ -7,6 +7,12 @@ function json(body: unknown, status = 200, headers: Record<string, string> = {})
   });
 }
 
+function readLangCookie(request: Request): 'en' | 'pt' | null {
+  const cookie = request.headers.get('cookie') ?? '';
+  const match = cookie.match(/(?:^|;\s*)lang=(en|pt)(?:;|$)/);
+  return (match?.[1] as 'en' | 'pt' | undefined) ?? null;
+}
+
 function constantTimeEqual(a: string, b: string): boolean {
   const encoder = new TextEncoder();
   const bytesA = encoder.encode(a);
@@ -60,6 +66,22 @@ export default {
     if (url.hostname === 'www.4nrry.dev') {
       url.hostname = '4nrry.dev';
       return Response.redirect(url.toString(), 301);
+    }
+
+    // Brazilian visitors land on the PT-BR page; an explicit language choice
+    // (cookie set by the toggle) always beats geo. `?geo=` is a test override
+    // because request.cf is empty in local dev.
+    if (url.pathname === '/') {
+      const lang = readLangCookie(request);
+      const country =
+        url.searchParams.get('geo') ?? (request.cf as { country?: string } | undefined)?.country;
+      if (lang !== 'en' && (lang === 'pt' || country === 'BR')) {
+        return new Response(null, {
+          status: 302,
+          headers: { location: '/pt/', 'cache-control': 'private, no-store' },
+        });
+      }
+      return env.ASSETS.fetch(request);
     }
 
     if (url.pathname.startsWith('/api/')) {

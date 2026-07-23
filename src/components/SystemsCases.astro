@@ -1,60 +1,37 @@
+---
+import { resolveLocale, ui } from '../i18n/ui';
+const t = ui[resolveLocale(Astro.currentLocale)].systems;
+---
+
 <section id="section-systems" class="mx-auto max-w-5xl px-6 py-14 sm:py-16">
   <p class="eyebrow">systems</p>
-  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">Systems, not just commits</h2>
-  <p class="mt-3 max-w-2xl text-muted">
-    Volume is easy to chart. This is the part that matters: what the client needed, how I modeled
-    it, and what I traded away to get there.
-  </p>
+  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">{t.title}</h2>
+  <p class="mt-3 max-w-2xl text-muted">{t.intro}</p>
 
   <!-- Case: OpenCherry -->
   <article class="card mt-8 p-6 sm:p-8">
     <header class="flex flex-wrap items-baseline justify-between gap-2">
-      <h3 class="font-mono text-lg font-bold text-accent-bright">
-        OpenCherry: a control tower for multi-repo AI coding
-      </h3>
+      <h3 class="font-mono text-lg font-bold text-accent-bright">{t.oc.title}</h3>
       <p class="font-mono text-xs text-faint">
-        Tauri 2 · alpha · AGPL-3.0 ·
+        {t.oc.meta}
         <a class="underline underline-offset-2 hover:text-muted" href="https://opencherry.dev" rel="noopener">opencherry.dev</a>
       </p>
     </header>
 
     <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+      <p><span class="font-mono text-xs text-accent">{t.need}</span><br />{t.oc.need}</p>
+      <p><span class="font-mono text-xs text-accent">{t.decisions}</span><br />{t.oc.decisions}</p>
+      <p><span class="font-mono text-xs text-accent">{t.tradeoffs}</span><br />{t.oc.tradeoffs}</p>
       <p>
-        <span class="font-mono text-xs text-accent">need</span><br />
-        AI coding tools assume one repo, one agent, one terminal. My day is the opposite: many
-        repos, several agents working in parallel. OpenCherry is the missing dashboard: a desktop
-        app that watches every repo and shows which agent is touching what.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">decisions</span><br />
-        A Tauri 2 shell with a SolidJS UI over a Rust core, after a same-day pivot away from a
-        native-Rust GUI: velocity won. The core splits into four thin crates: shared types, git
-        operations, agent detection, SQLite persistence. Git is hybrid: local operations run on
-        embedded libgit2, remote push and pull shell out to the user's real git so existing
-        credentials just work. Agents are never spawned, only detected: a data-driven rule table
-        scans the process list and correlates each running agent to the repo it is touching.
-        Everything is local and offline-first.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">trade-offs</span><br />
-        AGPL from the first commit: reciprocity over easy corporate adoption. The
-        TypeScript-Rust contract across the IPC bridge is maintained by hand, a two-file edit on
-        every command change. Distribution is an unsandboxed installer with no auto-update,
-        because the app's whole job is watching other processes and arbitrary paths; a store
-        sandbox would neuter it.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">outcome</span><br />
-        An alpha that already does the job: multi-repo Git with diffs, staging and sync, live
-        agent correlation for five agent CLIs, eight built-in themes plus theme import, and one
-        binary that is both GUI and CLI. Ubuntu and GNOME first. Code in the open at
+        <span class="font-mono text-xs text-accent">{t.outcome}</span><br />
+        {t.oc.outcome}
         <a class="underline underline-offset-2 hover:text-text" href="https://github.com/4nrry/opencherry" rel="noopener">github.com/4nrry/opencherry</a>.
       </p>
     </div>
 
     <figure class="mt-8">
       <div class="overflow-x-auto">
-        <svg viewBox="0 0 640 240" class="w-full min-w-[560px]" role="img" aria-label="OpenCherry architecture: a SolidJS WebView talks to a Rust core over Tauri IPC; the core's four crates use the git CLI for remote operations only, read the OS process table to detect agents, and persist state in a local SQLite database.">
+        <svg viewBox="0 0 640 240" class="w-full min-w-[560px]" role="img" aria-label={t.oc.aria}>
           <g font-family="JetBrains Mono, monospace" font-size="11">
             <rect x="8" y="88" width="110" height="64" rx="6" fill="#18181b" stroke="#27272a"/>
             <text x="63" y="115" text-anchor="middle" fill="#fafafa">SolidJS UI</text>
@@ -99,103 +76,78 @@
           </g>
         </svg>
       </div>
-      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">
-        one IPC bridge, four thin crates, nothing spawned
-      </figcaption>
+      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">{t.oc.figcaption}</figcaption>
     </figure>
   </article>
 
-  <!-- Case 2: this site -->
+  <!-- Case: this site -->
   <article class="card mt-6 p-6 sm:p-8">
     <header class="flex flex-wrap items-baseline justify-between gap-2">
-      <h3 class="font-mono text-lg font-bold text-accent-bright">
-        This site: publishing private work without leaking it
-      </h3>
+      <h3 class="font-mono text-lg font-bold text-accent-bright">{t.site.title}</h3>
       <p class="font-mono text-xs text-faint">
-        auditable: <a class="underline underline-offset-2 hover:text-muted" href="https://github.com/4nrry/4nrry.dev" rel="noopener">source on GitHub</a>
+        {t.site.metaAuditable}
+        <a class="underline underline-offset-2 hover:text-muted" href="https://github.com/4nrry/4nrry.dev" rel="noopener">{t.site.metaSource}</a>
       </p>
     </header>
 
     <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+      <p><span class="font-mono text-xs text-accent">{t.need}</span><br />{t.site.need}</p>
+      <p><span class="font-mono text-xs text-accent">{t.decisions}</span><br />{t.site.decisions}</p>
+      <p><span class="font-mono text-xs text-accent">{t.tradeoffs}</span><br />{t.site.tradeoffs}</p>
       <p>
-        <span class="font-mono text-xs text-accent">need</span><br />
-        Two years of work, 97% of it in private repos. Show it publicly, keep it current with
-        zero upkeep, and make "nothing private leaks" a property you can verify, not a promise.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">decisions</span><br />
-        One Cloudflare Worker owns everything: static assets, a tiny API, and a cron that
-        re-syncs GitHub every six hours. The sync materializes a single public-safe JSON
-        document. Per-repo queries are generated from an allowlist, so private repo names are
-        never even requested; a sanitizer then walks the final document and the publish fails
-        closed on any violation, leaving the last good dataset serving.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">trade-offs</span><br />
-        Six-hour freshness instead of realtime. KV instead of a database, because the artifact
-        is one document, not a query workload. A blocklist would have been simpler, but this
-        repo is public and a blocklist of private names would itself be the leak.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">outcome</span><br />
-        Every number on this page comes from
-        <a class="underline underline-offset-2 hover:text-text" href="/api/portfolio.json">/api/portfolio.json</a>,
-        and the sanitizer suite plus leak checker ship in the open.
+        <span class="font-mono text-xs text-accent">{t.outcome}</span><br />
+        {t.site.outcomeBefore}<a class="underline underline-offset-2 hover:text-text" href="/api/portfolio.json">/api/portfolio.json</a>{t.site.outcomeAfter}
       </p>
     </div>
 
     <figure class="mt-8">
-        <div class="overflow-x-auto">
-          <svg viewBox="0 0 640 210" class="w-full min-w-[560px]" role="img" aria-label="Site pipeline: a cron-driven sync reads the GitHub API, builds queries from an allowlist, aggregates, passes a sanitize gate that fails closed, writes one JSON document to KV, and the page reads it through the API.">
-            <g font-family="JetBrains Mono, monospace" font-size="11">
-              <rect x="8" y="20" width="110" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
-              <text x="63" y="44" text-anchor="middle" fill="#fafafa">GitHub API</text>
+      <div class="overflow-x-auto">
+        <svg viewBox="0 0 640 210" class="w-full min-w-[560px]" role="img" aria-label={t.site.aria}>
+          <g font-family="JetBrains Mono, monospace" font-size="11">
+            <rect x="8" y="20" width="110" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="63" y="44" text-anchor="middle" fill="#fafafa">GitHub API</text>
 
-              <rect x="160" y="8" width="330" height="64" rx="6" fill="#101013" stroke="#d97706"/>
-              <text x="176" y="28" fill="#d97706" font-size="10">sync (cron, every 6h)</text>
-              <rect x="176" y="36" width="86" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
-              <text x="219" y="53" text-anchor="middle" fill="#fafafa" font-size="10">allowlist</text>
-              <rect x="272" y="36" width="90" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
-              <text x="317" y="53" text-anchor="middle" fill="#fafafa" font-size="10">aggregate</text>
-              <rect x="372" y="36" width="102" height="26" rx="4" fill="#18181b" stroke="#d97706"/>
-              <text x="423" y="53" text-anchor="middle" fill="#fafafa" font-size="10">sanitize gate</text>
+            <rect x="160" y="8" width="330" height="64" rx="6" fill="#101013" stroke="#d97706"/>
+            <text x="176" y="28" fill="#d97706" font-size="10">sync (cron, every 6h)</text>
+            <rect x="176" y="36" width="86" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="219" y="53" text-anchor="middle" fill="#fafafa" font-size="10">allowlist</text>
+            <rect x="272" y="36" width="90" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="317" y="53" text-anchor="middle" fill="#fafafa" font-size="10">aggregate</text>
+            <rect x="372" y="36" width="102" height="26" rx="4" fill="#18181b" stroke="#d97706"/>
+            <text x="423" y="53" text-anchor="middle" fill="#fafafa" font-size="10">sanitize gate</text>
 
-              <rect x="530" y="20" width="102" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
-              <text x="581" y="38" text-anchor="middle" fill="#fafafa">KV</text>
-              <text x="581" y="53" text-anchor="middle" fill="#52525b" font-size="9">one JSON doc</text>
+            <rect x="530" y="20" width="102" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="581" y="38" text-anchor="middle" fill="#fafafa">KV</text>
+            <text x="581" y="53" text-anchor="middle" fill="#52525b" font-size="9">one JSON doc</text>
 
-              <rect x="530" y="130" width="102" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
-              <text x="581" y="148" text-anchor="middle" fill="#fafafa">/api/*.json</text>
-              <text x="581" y="163" text-anchor="middle" fill="#52525b" font-size="9">ETag + SWR</text>
+            <rect x="530" y="130" width="102" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="581" y="148" text-anchor="middle" fill="#fafafa">/api/*.json</text>
+            <text x="581" y="163" text-anchor="middle" fill="#52525b" font-size="9">ETag + SWR</text>
 
-              <rect x="300" y="130" width="130" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
-              <text x="365" y="154" text-anchor="middle" fill="#fafafa">this page</text>
+            <rect x="300" y="130" width="130" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="365" y="154" text-anchor="middle" fill="#fafafa">this page</text>
 
-              <g stroke="#52525b" stroke-width="1.5" fill="none">
-                <path d="M118 40 H156"/>
-                <path d="M262 49 H268"/>
-                <path d="M362 49 H368"/>
-                <path d="M490 40 H526"/>
-                <path d="M581 60 V126"/>
-                <path d="M526 150 H434"/>
-              </g>
-              <g fill="#52525b">
-                <path d="M156 36 l8 4 -8 4 z"/>
-                <path d="M526 36 l8 4 -8 4 z"/>
-                <path d="M577 126 l4 8 4 -8 z"/>
-                <path d="M434 146 l-8 4 8 4 z"/>
-              </g>
-              <text x="176" y="92" fill="#52525b" font-size="10">violation = no publish, the last good dataset keeps serving</text>
+            <g stroke="#52525b" stroke-width="1.5" fill="none">
+              <path d="M118 40 H156"/>
+              <path d="M262 49 H268"/>
+              <path d="M362 49 H368"/>
+              <path d="M490 40 H526"/>
+              <path d="M581 60 V126"/>
+              <path d="M526 150 H434"/>
             </g>
-          </svg>
-        </div>
-        <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">
-          fail-closed by design: the gate sits before the only write
-        </figcaption>
-      </figure>
+            <g fill="#52525b">
+              <path d="M156 36 l8 4 -8 4 z"/>
+              <path d="M526 36 l8 4 -8 4 z"/>
+              <path d="M577 126 l4 8 4 -8 z"/>
+              <path d="M434 146 l-8 4 8 4 z"/>
+            </g>
+            <text x="176" y="92" fill="#52525b" font-size="10">violation = no publish, the last good dataset keeps serving</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">{t.site.figcaption}</figcaption>
+    </figure>
   </article>
 
-  <p class="mt-6 font-mono text-xs text-faint">
-    More case studies landing here soon.
-  </p>
+  <p class="mt-6 font-mono text-xs text-faint">{t.more}</p>
 </section>

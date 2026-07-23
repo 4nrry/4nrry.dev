@@ -7,6 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://4nrry.dev',
 
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', { path: 'pt', codes: ['pt-BR'] }],
+  },
+
   vite: {
     plugins: [tailwindcss()],
     server: {

@@ -12,6 +12,67 @@ const ORG_CSS_VARS: Record<string, string> = {
   'ocean-words': '--color-org-ocean',
 };
 
+const IS_PT = document.documentElement.lang === 'pt-BR';
+
+const PT_MONTHS: Record<string, string> = {
+  Jan: 'jan', Feb: 'fev', Mar: 'mar', Apr: 'abr', May: 'mai', Jun: 'jun',
+  Jul: 'jul', Aug: 'ago', Sep: 'set', Oct: 'out', Nov: 'nov', Dec: 'dez',
+};
+
+/** Client-side strings for everything the dataset and canvases compose. */
+const T = IS_PT
+  ? {
+      justNow: 'agora mesmo',
+      minAgo: (m: number) => `${m} min atrás`,
+      hoursAgo: (h: number) => `${h} h atrás`,
+      daysAgo: (d: number) => `${d} dias atrás`,
+      synced: (when: string) => `sincronizado ${when}`,
+      firstSync: 'primeira sincronização em andamento, os números chegam já já',
+      tickerWords: { ticker: 'contribuições', one: 'contribuição', many: 'contribuições' },
+      weekdayGutter: ['seg', '', 'qua', '', 'sex', '', ''],
+      rowLabels: ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom'],
+      prsSuffix: 'PRs',
+      reposSuffix: 'repos',
+      topReposAria: 'Top repositórios por pull requests',
+      upstreamPrs: (n: string) => `${n} PRs merged upstream`,
+      onNpm: 'no npm',
+      ariaCalendar: (n: string) => `Calendário diário de contribuições: ${n} contribuições nos últimos dois anos.`,
+      ariaYears: (a: string, b: string) => `Contribuições por ano: ${a} e ${b}.`,
+      ariaRepos: (n: number) => `Top ${n} repositórios por pull requests autorados.`,
+      ariaWeekday: 'Contribuições por dia da semana em cada mês da janela.',
+      ariaLanguages: (list: string) => `Linguagens: ${list}.`,
+      translateMonth: (label: string) => {
+        const [abbr, year] = label.split(' ');
+        return `${PT_MONTHS[abbr ?? ''] ?? abbr} ${year ?? ''}`.trim();
+      },
+      pickNarrative: (org: { narrative: string; narrativePt?: string }) => org.narrativePt ?? org.narrative,
+      pickBlurb: (card: { blurb: string; blurbPt?: string }) => card.blurbPt ?? card.blurb,
+    }
+  : {
+      justNow: 'just now',
+      minAgo: (m: number) => `${m} min ago`,
+      hoursAgo: (h: number) => `${h} h ago`,
+      daysAgo: (d: number) => `${d} days ago`,
+      synced: (when: string) => `synced ${when}`,
+      firstSync: 'first sync in progress, numbers land shortly',
+      tickerWords: { ticker: 'contributions', one: 'contribution', many: 'contributions' },
+      weekdayGutter: ['Mon', '', 'Wed', '', 'Fri', '', ''],
+      rowLabels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      prsSuffix: 'PRs',
+      reposSuffix: 'repos',
+      topReposAria: 'Top repositories by pull requests',
+      upstreamPrs: (n: string) => `${n} merged upstream PRs`,
+      onNpm: 'on npm',
+      ariaCalendar: (n: string) => `Daily contribution calendar: ${n} contributions over the last two years.`,
+      ariaYears: (a: string, b: string) => `Yearly contributions: ${a} and ${b}.`,
+      ariaRepos: (n: number) => `Top ${n} repositories by authored pull requests.`,
+      ariaWeekday: 'Contributions by weekday across each month of the window.',
+      ariaLanguages: (list: string) => `Language footprint: ${list}.`,
+      translateMonth: (label: string) => label,
+      pickNarrative: (org: { narrative: string; narrativePt?: string }) => org.narrative,
+      pickBlurb: (card: { blurb: string; blurbPt?: string }) => card.blurb,
+    };
+
 async function fetchPortfolio(): Promise<PortfolioDataset | null> {
   try {
     const response = await fetch('/api/portfolio.json');
@@ -30,12 +91,12 @@ function byId<T extends HTMLElement>(id: string): T | null {
 
 function relativeTime(iso: string): string {
   const seconds = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
-  if (seconds < 90) return 'just now';
+  if (seconds < 90) return T.justNow;
   const minutes = seconds / 60;
-  if (minutes < 90) return `${Math.round(minutes)} min ago`;
+  if (minutes < 90) return T.minAgo(Math.round(minutes));
   const hours = minutes / 60;
-  if (hours < 36) return `${Math.round(hours)} h ago`;
-  return `${Math.round(hours / 24)} days ago`;
+  if (hours < 36) return T.hoursAgo(Math.round(hours));
+  return T.daysAgo(Math.round(hours / 24));
 }
 
 function setField(name: string, value: string): void {
@@ -44,7 +105,16 @@ function setField(name: string, value: string): void {
   }
 }
 
-function bootHero(data: PortfolioDataset): void {
+/** The language toggle stores the choice so geo never overrides it again. */
+function wireLangToggle(): void {
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-lang]')) {
+    link.addEventListener('click', () => {
+      document.cookie = `lang=${link.dataset.lang}; path=/; max-age=31536000; samesite=lax`;
+    });
+  }
+}
+
+function bootHero(data: PortfolioDataset, monthLabels: string[]): void {
   const canvas = byId<HTMLCanvasElement>('viz-calendar');
   const contributions = byId('counter-contributions');
   const prsMerged = byId('counter-prs');
@@ -53,7 +123,7 @@ function bootHero(data: PortfolioDataset): void {
 
   const viz = createCalendarReplay(canvas, {
     calendar: data.calendar,
-    monthLabels: data.monthLabels,
+    monthLabels,
     monthlyTotals: data.monthlyTotals,
     counters: {
       contributions: { element: contributions, target: data.totals.contributions },
@@ -61,12 +131,11 @@ function bootHero(data: PortfolioDataset): void {
       streak: { element: streak, target: data.streaks.longest },
     },
     ticker: byId('calendar-ticker'),
+    words: T.tickerWords,
+    weekdayGutter: T.weekdayGutter,
   });
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute(
-    'aria-label',
-    `Daily contribution calendar: ${formatInt(data.totals.contributions)} contributions over the last two years.`,
-  );
+  canvas.setAttribute('aria-label', T.ariaCalendar(formatInt(data.totals.contributions)));
   viz.render(reducedMotion() ? 1 : 0);
   // The hero replays on load: the page opens on its thesis. If the tab is in
   // the background, hold the replay until it becomes visible so the animation
@@ -87,7 +156,7 @@ function bootHero(data: PortfolioDataset): void {
 
   const monthsBody = byId('table-months-body');
   if (monthsBody) {
-    monthsBody.innerHTML = data.monthLabels
+    monthsBody.innerHTML = monthLabels
       .map((label, i) => `<tr><td>${label}</td><td>${formatInt(data.monthlyTotals[i] ?? 0)}</td></tr>`)
       .join('');
   }
@@ -104,7 +173,10 @@ function bootYears(data: PortfolioDataset): void {
   canvas.setAttribute('role', 'img');
   canvas.setAttribute(
     'aria-label',
-    `Yearly contributions: ${first.label} ${formatInt(first.contributions)}, ${last.label} ${formatInt(last.contributions)}.`,
+    T.ariaYears(
+      `${first.label} ${formatInt(first.contributions)}`,
+      `${last.label} ${formatInt(last.contributions)}`,
+    ),
   );
   playOnView(section, createYearsRace(canvas, data.years));
 }
@@ -122,10 +194,10 @@ function bootOrgs(data: PortfolioDataset): void {
     card.innerHTML = `
       <header class="flex items-baseline justify-between gap-3">
         <h3 class="font-mono text-lg font-bold" style="color: var(--org-accent)">${org.displayName}</h3>
-        <p class="font-mono text-xs text-faint">${formatInt(org.prCount)} PRs · ${formatInt(org.repoCount)} repos</p>
+        <p class="font-mono text-xs text-faint">${formatInt(org.prCount)} ${T.prsSuffix} · ${formatInt(org.repoCount)} ${T.reposSuffix}</p>
       </header>
-      <p class="text-sm leading-relaxed text-muted">${org.narrative}</p>
-      <ul class="mt-auto flex flex-col gap-2" aria-label="Top repositories by pull requests">
+      <p class="text-sm leading-relaxed text-muted">${T.pickNarrative(org)}</p>
+      <ul class="mt-auto flex flex-col gap-2" aria-label="${T.topReposAria}">
         ${org.topRepos
           .slice(0, 4)
           .map(
@@ -173,7 +245,7 @@ function bootRepoBars(data: PortfolioDataset): void {
     .sort((a, b) => b.prs - a.prs)
     .slice(0, 10);
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', `Top ${rows.length} repositories by authored pull requests.`);
+  canvas.setAttribute('aria-label', T.ariaRepos(rows.length));
   playOnView(section, createRepoBars(canvas, rows));
 
   const tableBody = byId('table-repos-body');
@@ -184,13 +256,16 @@ function bootRepoBars(data: PortfolioDataset): void {
   }
 }
 
-function bootWeekday(data: PortfolioDataset): void {
+function bootWeekday(data: PortfolioDataset, monthLabels: string[]): void {
   const canvas = byId<HTMLCanvasElement>('viz-weekday');
   const section = byId('section-rhythm');
   if (!canvas || !section) return;
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', 'Contributions by weekday across each month of the window.');
-  playOnView(section, createWeekdayHeatmap(canvas, data.weekdayByMonth, data.monthLabels));
+  canvas.setAttribute('aria-label', T.ariaWeekday);
+  playOnView(
+    section,
+    createWeekdayHeatmap(canvas, data.weekdayByMonth, monthLabels, T.rowLabels, T.tickerWords.many),
+  );
 }
 
 function bootLanguages(data: PortfolioDataset): void {
@@ -201,7 +276,7 @@ function bootLanguages(data: PortfolioDataset): void {
   canvas.setAttribute('role', 'img');
   canvas.setAttribute(
     'aria-label',
-    `Language footprint: ${data.languages.map((l) => `${l.name} ${l.pct}%`).join(', ')}.`,
+    T.ariaLanguages(data.languages.map((l) => `${l.name} ${l.pct}%`).join(', ')),
   );
   playOnView(section, createLanguagesViz(canvas, data.languages));
   if (list) {
@@ -225,9 +300,9 @@ function bootOpenSource(data: PortfolioDataset): void {
     const badges: string[] = [];
     if (typeof card.stars === 'number') badges.push(`★ ${formatInt(card.stars)}`);
     if (typeof card.upstreamMergedPrs === 'number' && card.upstreamMergedPrs > 0) {
-      badges.push(`${formatInt(card.upstreamMergedPrs)} merged upstream PRs`);
+      badges.push(T.upstreamPrs(formatInt(card.upstreamMergedPrs)));
     }
-    if (card.npmPackage) badges.push('on npm');
+    if (card.npmPackage) badges.push(T.onNpm);
     const article = document.createElement('article');
     article.className = 'card p-6 flex flex-col gap-3';
     article.innerHTML = `
@@ -237,7 +312,7 @@ function bootOpenSource(data: PortfolioDataset): void {
         </h3>
         ${badges.length ? `<p class="font-mono text-xs text-accent">${badges.join(' · ')}</p>` : ''}
       </header>
-      <p class="text-sm leading-relaxed text-muted">${card.blurb}</p>
+      <p class="text-sm leading-relaxed text-muted">${T.pickBlurb(card)}</p>
       <footer class="mt-auto flex flex-wrap items-center gap-2">
         ${card.tech.map((tech) => `<span class="font-mono text-[0.65rem] text-faint border border-border rounded px-1.5 py-0.5">${tech}</span>`).join('')}
         <span class="flex-1"></span>
@@ -253,15 +328,18 @@ function bootOpenSource(data: PortfolioDataset): void {
 }
 
 async function boot(): Promise<void> {
+  wireLangToggle();
   const data = await fetchPortfolio();
   const syncChip = byId('sync-chip');
   if (!data) {
-    if (syncChip) syncChip.textContent = 'first sync in progress, numbers land shortly';
+    if (syncChip) syncChip.textContent = T.firstSync;
     window.setTimeout(boot, 45_000);
     return;
   }
   document.body.dataset.pending = 'false';
-  if (syncChip) syncChip.textContent = `synced ${relativeTime(data.generatedAt)}`;
+  if (syncChip) syncChip.textContent = T.synced(relativeTime(data.generatedAt));
+
+  const monthLabels = data.monthLabels.map(T.translateMonth);
 
   setField('totals.contributions', formatInt(data.totals.contributions));
   setField('totals.prsAuthored', formatInt(data.totals.prsAuthored));
@@ -269,11 +347,11 @@ async function boot(): Promise<void> {
   setField('streaks.longest', formatInt(data.streaks.longest));
   setField('totals.reposContributed', formatInt(data.totals.reposContributed));
 
-  bootHero(data);
+  bootHero(data, monthLabels);
   bootYears(data);
   bootOrgs(data);
   bootRepoBars(data);
-  bootWeekday(data);
+  bootWeekday(data, monthLabels);
   bootLanguages(data);
   bootOpenSource(data);
 }

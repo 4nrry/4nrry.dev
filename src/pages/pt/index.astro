@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import YearsRace from '../../components/YearsRace.astro';
+import OrgsStory from '../../components/OrgsStory.astro';
+import SystemsCases from '../../components/SystemsCases.astro';
+import RepoBars from '../../components/RepoBars.astro';
+import WeekdayHeatmap from '../../components/WeekdayHeatmap.astro';
+import Languages from '../../components/Languages.astro';
+import OpenSource from '../../components/OpenSource.astro';
+import Trajectory from '../../components/Trajectory.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout>
+  <main>
+    <Hero />
+    <YearsRace />
+    <OrgsStory />
+    <SystemsCases />
+    <RepoBars />
+    <WeekdayHeatmap />
+    <Languages />
+    <OpenSource />
+    <Trajectory />
+    <Footer />
+  </main>
+</Layout>
+
+<script>
+  import '../../scripts/data';
+</script>

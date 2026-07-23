@@ -10,6 +10,8 @@ export function createWeekdayHeatmap(
   canvas: HTMLCanvasElement,
   matrix: number[][],
   monthLabels: string[],
+  rowLabels: string[] = ROW_LABELS,
+  cellWord = 'contributions',
 ): Viz {
   const columns = monthLabels.length;
   const height = GUTTER_TOP + 7 * (CELL_HEIGHT + GAP) + 20;
@@ -29,7 +31,7 @@ export function createWeekdayHeatmap(
 
     context.font = '9px "JetBrains Mono", monospace';
     context.fillStyle = themeColor('--color-faint');
-    ROW_LABELS.forEach((label, row) => {
+    rowLabels.forEach((label, row) => {
       if (row % 2 === 0) {
         context.fillText(label, 0, GUTTER_TOP + row * (CELL_HEIGHT + GAP) + CELL_HEIGHT - 4);
       }
@@ -69,7 +71,7 @@ export function createWeekdayHeatmap(
     const row = Math.floor((y - GUTTER_TOP) / (CELL_HEIGHT + GAP));
     if (col < 0 || col >= columns || row < 0 || row > 6) return null;
     const value = matrix[row]?.[col] ?? 0;
-    return `${ROW_LABELS[row]} · ${monthLabels[col]} · ${formatInt(value)} contributions`;
+    return `${rowLabels[row]} · ${monthLabels[col]} · ${formatInt(value)} ${cellWord}`;
   });
 
   return { render, durationMs: 1800 };

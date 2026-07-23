@@ -1,38 +1,14 @@
 ---
-const chapters = [
-  {
-    title: 'Smart Compost, solo',
-    body: 'I joined a small composting startup as the only engineer. Firmware, backend, frontend: whatever the day needed.',
-  },
-  {
-    title: 'The platform',
-    body: 'One repo became twenty-eight: C++ sensors, NestJS microservices, three frontends, a React Native app, Helm-managed infra.',
-  },
-  {
-    title: 'Mentoring',
-    body: 'Bruno joined as an intern; today we work as peers. Best multiplier I ever shipped.',
-  },
-  {
-    title: 'LOTVS Finance',
-    body: 'Started a fintech with a college friend. My single most PR-heavy repository lives there.',
-  },
-  {
-    title: 'Ocean Words',
-    body: 'Building an English-teaching platform with my girlfriend, who teaches the classes.',
-  },
-  {
-    title: 'In the open',
-    body: 'OpenCherry, an MCP server on npm, upstream PRs to tools I use daily. This site is one of them: a Worker that replays my own GitHub.',
-  },
-];
+import { resolveLocale, ui } from '../i18n/ui';
+const t = ui[resolveLocale(Astro.currentLocale)].trajectory;
 ---
 
 <section id="section-trajectory" class="mx-auto max-w-5xl px-6 py-14 sm:py-16">
   <p class="eyebrow">trajectory</p>
-  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">How I got here</h2>
+  <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">{t.title}</h2>
   <ol class="mt-8 flex max-w-2xl flex-col">
     {
-      chapters.map((chapter, i) => (
+      t.chapters.map((chapter, i) => (
         <li class="relative border-l border-border pb-10 pl-8 last:pb-0">
           <span class="absolute -left-[13px] top-0 rounded bg-bg px-1 font-mono text-xs font-bold text-accent">
             {String(i + 1).padStart(2, '0')}

@@ -19,7 +19,9 @@ export function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
-const integerFormat = new Intl.NumberFormat('en-US');
+const integerFormat = new Intl.NumberFormat(
+  typeof document !== 'undefined' && document.documentElement.lang === 'pt-BR' ? 'pt-BR' : 'en-US',
+);
 
 export function formatInt(value: number): string {
   return integerFormat.format(Math.round(value));
