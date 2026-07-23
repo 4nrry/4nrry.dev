@@ -6,128 +6,6 @@
     it, and what I traded away to get there.
   </p>
 
-  <!-- Case 1: Smart Compost -->
-  <article class="card mt-8 p-6 sm:p-8">
-    <header class="flex flex-wrap items-baseline justify-between gap-2">
-      <h3 class="font-mono text-lg font-bold" style="color: var(--color-org-smart)">
-        Smart Compost: an IoT platform sized for a tiny team
-      </h3>
-      <p class="font-mono text-xs text-faint">firmware to mobile, 2 engineers</p>
-    </header>
-
-    <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
-      <p>
-        <span class="font-mono text-xs text-accent">need</span><br />
-        Field hardware measuring compost piles for multiple customers. The sensor lineup would
-        keep changing as the product learned, and at the start there was exactly one engineer:
-        me.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">decisions</span><br />
-        Device traffic and human traffic enter through separate gateways: different auth,
-        different failure tolerance. Behind them, domain services small enough for one person to
-        own end to end. Telemetry is metric-first: a sensor catalog describes each metric, and
-        readings reference the catalog instead of hardcoding one column per sensor. New hardware
-        lands as catalog rows, not schema migrations. Risky launches hide behind feature flags
-        per environment.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">trade-offs</span><br />
-        The metric-first model taxes ad-hoc SQL, paid deliberately because hardware iteration
-        was the real constraint. Many small services add deploy surface, paid back by
-        independent shipping once the team became two.
-      </p>
-      <p>
-        <span class="font-mono text-xs text-accent">outcome</span><br />
-        The platform runs from C++ firmware through the cloud to a React Native app, operated by
-        two engineers, and the same catalog powers a public API and an MCP server for LLMs.
-      </p>
-    </div>
-
-    <div class="mt-8 flex flex-col gap-6">
-        <figure>
-          <div class="overflow-x-auto">
-            <svg viewBox="0 0 640 260" class="w-full min-w-[560px]" role="img" aria-label="Smart Compost topology: devices reach domain services through a device gateway; web and mobile apps reach the same services through a user gateway.">
-              <g font-family="JetBrains Mono, monospace" font-size="11">
-                <rect x="8" y="108" width="104" height="44" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="60" y="126" text-anchor="middle" fill="#fafafa">devices</text>
-                <text x="60" y="142" text-anchor="middle" fill="#52525b" font-size="9">C++ firmware</text>
-
-                <rect x="150" y="108" width="104" height="44" rx="6" fill="#18181b" stroke="#16a34a"/>
-                <text x="202" y="126" text-anchor="middle" fill="#fafafa">device</text>
-                <text x="202" y="142" text-anchor="middle" fill="#fafafa">gateway</text>
-
-                <rect x="300" y="16" width="112" height="36" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="356" y="38" text-anchor="middle" fill="#fafafa">composting</text>
-                <rect x="300" y="78" width="112" height="36" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="356" y="100" text-anchor="middle" fill="#fafafa">weather</text>
-                <rect x="300" y="140" width="112" height="36" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="356" y="162" text-anchor="middle" fill="#fafafa">notifications</text>
-                <rect x="300" y="202" width="112" height="36" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="356" y="224" text-anchor="middle" fill="#fafafa">reports</text>
-
-                <rect x="458" y="108" width="96" height="44" rx="6" fill="#18181b" stroke="#16a34a"/>
-                <text x="506" y="126" text-anchor="middle" fill="#fafafa">user</text>
-                <text x="506" y="142" text-anchor="middle" fill="#fafafa">gateway</text>
-
-                <rect x="560" y="100" width="72" height="60" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="596" y="122" text-anchor="middle" fill="#fafafa">web +</text>
-                <text x="596" y="138" text-anchor="middle" fill="#fafafa">mobile</text>
-
-                <g stroke="#52525b" stroke-width="1.5" fill="none">
-                  <path d="M112 130 H146"/>
-                  <path d="M254 122 C 280 100, 280 50, 296 36"/>
-                  <path d="M254 128 C 274 118, 280 100, 296 96"/>
-                  <path d="M254 134 C 274 144, 280 158, 296 158"/>
-                  <path d="M254 140 C 280 162, 280 208, 296 220"/>
-                  <path d="M412 36 C 436 50, 436 100, 454 122"/>
-                  <path d="M412 96 C 432 100, 436 118, 454 128"/>
-                  <path d="M412 158 C 432 158, 436 144, 454 134"/>
-                  <path d="M412 220 C 436 208, 436 162, 454 140"/>
-                  <path d="M554 130 H556"/>
-                  <path d="M554 130 H558" stroke-width="1.5"/>
-                </g>
-                <g fill="#52525b">
-                  <path d="M146 126 l8 4 -8 4 z"/>
-                  <path d="M558 126 l8 4 -8 4 z"/>
-                </g>
-              </g>
-            </svg>
-          </div>
-          <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">
-            two front doors, one set of small domain services
-          </figcaption>
-        </figure>
-
-        <figure>
-          <div class="overflow-x-auto">
-            <svg viewBox="0 0 640 130" class="w-full min-w-[560px]" role="img" aria-label="Metric-first data model: readings reference a sensor catalog by metric id, so new sensors are catalog rows instead of schema migrations.">
-              <g font-family="JetBrains Mono, monospace" font-size="11">
-                <rect x="40" y="20" width="220" height="88" rx="6" fill="#18181b" stroke="#16a34a"/>
-                <text x="150" y="40" text-anchor="middle" fill="#fafafa">sensor catalog</text>
-                <text x="56" y="62" fill="#a1a1aa" font-size="10">metricId</text>
-                <text x="56" y="78" fill="#a1a1aa" font-size="10">unit, kind, range</text>
-                <text x="56" y="94" fill="#a1a1aa" font-size="10">display metadata</text>
-
-                <rect x="380" y="20" width="220" height="88" rx="6" fill="#18181b" stroke="#27272a"/>
-                <text x="490" y="40" text-anchor="middle" fill="#fafafa">reading</text>
-                <text x="396" y="62" fill="#a1a1aa" font-size="10">deviceId, metricId</text>
-                <text x="396" y="78" fill="#a1a1aa" font-size="10">value, recordedAt</text>
-                <text x="396" y="94" fill="#a1a1aa" font-size="10">tenant</text>
-
-                <path d="M380 64 H266" stroke="#52525b" stroke-width="1.5" fill="none"/>
-                <path d="M266 60 l-8 4 8 4 z" fill="#52525b"/>
-                <text x="323" y="56" text-anchor="middle" fill="#52525b" font-size="9">metricId</text>
-              </g>
-            </svg>
-          </div>
-          <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">
-            new sensor = new row, not a migration
-          </figcaption>
-        </figure>
-    </div>
-  </article>
-
   <!-- Case 2: this site -->
   <article class="card mt-6 p-6 sm:p-8">
     <header class="flex flex-wrap items-baseline justify-between gap-2">
@@ -219,6 +97,6 @@
   </article>
 
   <p class="mt-6 font-mono text-xs text-faint">
-    More case studies landing here: LOTVS Finance is next.
+    More case studies landing here soon.
   </p>
 </section>
