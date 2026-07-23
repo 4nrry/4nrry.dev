@@ -16,6 +16,7 @@ export const ALLOWED_EXACT_REPOS = [
   '4nrry/homebrew-tap',
   '4nrry/4nrry.dev',
   'akitaonrails/ai-usagebar',
+  'Andycodeman/samsung-galaxy-book-linux-fixes',
   'franceschinii/temakuri-frontend',
   'franceschinii/temakuri-backend',
 ] as const;
@@ -77,6 +78,16 @@ export const SHOWCASE: ShowcaseMeta[] = [
       'Upstream contributions to Akita’s Rust waybar widget for AI usage tracking. The same author whose github-visualize inspired this site.',
     url: 'https://github.com/akitaonrails/ai-usagebar',
     tech: ['Rust'],
+    wantUpstreamPrs: true,
+  },
+  {
+    title: 'samsung-galaxy-book-linux-fixes',
+    repos: ['Andycodeman/samsung-galaxy-book-linux-fixes'],
+    blurb:
+      'Community Linux fixes for Samsung Galaxy Books. I daily-drive a Book4 Ultra on Ubuntu and sent the fix that autostarts the webcam tray tooling.',
+    url: 'https://github.com/Andycodeman/samsung-galaxy-book-linux-fixes',
+    tech: ['Shell', 'Linux'],
+    wantStars: true,
     wantUpstreamPrs: true,
   },
   {

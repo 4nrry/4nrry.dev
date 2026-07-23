@@ -12,6 +12,7 @@ const ALLOWED_EXACT_REPOS = new Set([
   '4nrry/homebrew-tap',
   '4nrry/4nrry.dev',
   'akitaonrails/ai-usagebar',
+  'Andycodeman/samsung-galaxy-book-linux-fixes',
   'franceschinii/temakuri-frontend',
   'franceschinii/temakuri-backend',
 ]);
