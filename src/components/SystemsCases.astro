@@ -6,6 +6,105 @@
     it, and what I traded away to get there.
   </p>
 
+  <!-- Case: OpenCherry -->
+  <article class="card mt-8 p-6 sm:p-8">
+    <header class="flex flex-wrap items-baseline justify-between gap-2">
+      <h3 class="font-mono text-lg font-bold text-accent-bright">
+        OpenCherry: a control tower for multi-repo AI coding
+      </h3>
+      <p class="font-mono text-xs text-faint">
+        Tauri 2 · alpha · AGPL-3.0 ·
+        <a class="underline underline-offset-2 hover:text-muted" href="https://opencherry.dev" rel="noopener">opencherry.dev</a>
+      </p>
+    </header>
+
+    <div class="mt-6 grid gap-x-8 gap-y-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+      <p>
+        <span class="font-mono text-xs text-accent">need</span><br />
+        AI coding tools assume one repo, one agent, one terminal. My day is the opposite: many
+        repos, several agents working in parallel. OpenCherry is the missing dashboard: a desktop
+        app that watches every repo and shows which agent is touching what.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">decisions</span><br />
+        A Tauri 2 shell with a SolidJS UI over a Rust core, after a same-day pivot away from a
+        native-Rust GUI: velocity won. The core splits into four thin crates: shared types, git
+        operations, agent detection, SQLite persistence. Git is hybrid: local operations run on
+        embedded libgit2, remote push and pull shell out to the user's real git so existing
+        credentials just work. Agents are never spawned, only detected: a data-driven rule table
+        scans the process list and correlates each running agent to the repo it is touching.
+        Everything is local and offline-first.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">trade-offs</span><br />
+        AGPL from the first commit: reciprocity over easy corporate adoption. The
+        TypeScript-Rust contract across the IPC bridge is maintained by hand, a two-file edit on
+        every command change. Distribution is an unsandboxed installer with no auto-update,
+        because the app's whole job is watching other processes and arbitrary paths; a store
+        sandbox would neuter it.
+      </p>
+      <p>
+        <span class="font-mono text-xs text-accent">outcome</span><br />
+        An alpha that already does the job: multi-repo Git with diffs, staging and sync, live
+        agent correlation for five agent CLIs, eight built-in themes plus theme import, and one
+        binary that is both GUI and CLI. Ubuntu and GNOME first. Code in the open at
+        <a class="underline underline-offset-2 hover:text-text" href="https://github.com/4nrry/opencherry" rel="noopener">github.com/4nrry/opencherry</a>.
+      </p>
+    </div>
+
+    <figure class="mt-8">
+      <div class="overflow-x-auto">
+        <svg viewBox="0 0 640 240" class="w-full min-w-[560px]" role="img" aria-label="OpenCherry architecture: a SolidJS WebView talks to a Rust core over Tauri IPC; the core's four crates use the git CLI for remote operations only, read the OS process table to detect agents, and persist state in a local SQLite database.">
+          <g font-family="JetBrains Mono, monospace" font-size="11">
+            <rect x="8" y="88" width="110" height="64" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="63" y="115" text-anchor="middle" fill="#fafafa">SolidJS UI</text>
+            <text x="63" y="132" text-anchor="middle" fill="#52525b" font-size="9">WebView</text>
+
+            <rect x="180" y="28" width="250" height="184" rx="6" fill="#101013" stroke="#d97706"/>
+            <text x="196" y="50" fill="#d97706" font-size="10">Rust core</text>
+            <rect x="200" y="60" width="210" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="305" y="77" text-anchor="middle" fill="#fafafa" font-size="10">shared types</text>
+            <rect x="200" y="96" width="210" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="305" y="113" text-anchor="middle" fill="#fafafa" font-size="10">git (embedded libgit2)</text>
+            <rect x="200" y="132" width="210" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="305" y="149" text-anchor="middle" fill="#fafafa" font-size="10">agent detect (sysinfo)</text>
+            <rect x="200" y="168" width="210" height="26" rx="4" fill="#18181b" stroke="#27272a"/>
+            <text x="305" y="185" text-anchor="middle" fill="#fafafa" font-size="10">SQLite persistence</text>
+
+            <rect x="476" y="56" width="152" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="552" y="74" text-anchor="middle" fill="#fafafa">git CLI</text>
+            <text x="552" y="89" text-anchor="middle" fill="#52525b" font-size="9">remote ops only</text>
+
+            <rect x="476" y="110" width="152" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="552" y="128" text-anchor="middle" fill="#fafafa">process table</text>
+            <text x="552" y="143" text-anchor="middle" fill="#52525b" font-size="9">read, never spawn</text>
+
+            <rect x="476" y="164" width="152" height="40" rx="6" fill="#18181b" stroke="#27272a"/>
+            <text x="552" y="182" text-anchor="middle" fill="#fafafa">opencherry.db</text>
+            <text x="552" y="197" text-anchor="middle" fill="#52525b" font-size="9">local state</text>
+
+            <g stroke="#52525b" stroke-width="1.5" fill="none">
+              <path d="M118 120 H176"/>
+              <path d="M430 109 L472 76"/>
+              <path d="M430 145 L472 130"/>
+              <path d="M430 181 L472 184"/>
+            </g>
+            <g fill="#52525b">
+              <path d="M176 116 l8 4 -8 4 z"/>
+              <path d="M472 72 l8 4 -6 6 z"/>
+              <path d="M472 126 l8 4 -7 5 z"/>
+              <path d="M472 180 l8 4 -8 4 z"/>
+            </g>
+            <text x="147" y="110" text-anchor="middle" fill="#52525b" font-size="9">Tauri IPC</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">
+        one IPC bridge, four thin crates, nothing spawned
+      </figcaption>
+    </figure>
+  </article>
+
   <!-- Case 2: this site -->
   <article class="card mt-6 p-6 sm:p-8">
     <header class="flex flex-wrap items-baseline justify-between gap-2">

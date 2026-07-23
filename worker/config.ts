@@ -66,9 +66,9 @@ export const SHOWCASE: ShowcaseMeta[] = [
     title: 'OpenCherry',
     repos: ['4nrry/opencherry'],
     blurb:
-      'My open-source flagship: a developer tool written in TypeScript and Rust, with an Astro site and its own Homebrew tap.',
+      'My open-source flagship: a multi-repo control tower for AI coding agents. Tauri 2 desktop app with a Rust core and SolidJS UI, offline-first.',
     url: 'https://opencherry.dev',
-    tech: ['TypeScript', 'Rust', 'Astro'],
+    tech: ['Rust', 'SolidJS', 'Tauri 2'],
     wantStars: true,
   },
   {
