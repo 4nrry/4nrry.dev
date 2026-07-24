@@ -133,6 +133,7 @@ const en = {
   contact: {
     title: 'Say hi',
     intro: 'Open to interesting problems, especially where hardware, data and product meet.',
+    hire: 'hire me · pt-BR',
     noteBefore: 'This site is a Cloudflare Worker that re-syncs itself from the GitHub API every six hours. ',
     noteSource: 'Source on GitHub.',
     noteInspired: 'Replay idea inspired by',
@@ -261,6 +262,7 @@ const pt: typeof en = {
   contact: {
     title: 'Vamos conversar',
     intro: 'Aberto a problemas interessantes, principalmente onde hardware, dados e produto se encontram.',
+    hire: 'trabalhe comigo',
     noteBefore: 'Este site é um Cloudflare Worker que se re-sincroniza da API do GitHub a cada seis horas. ',
     noteSource: 'Código no GitHub.',
     noteInspired: 'Ideia do replay inspirada em',

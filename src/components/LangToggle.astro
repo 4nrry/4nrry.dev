@@ -5,14 +5,14 @@ const locale = resolveLocale(Astro.currentLocale);
 
 <nav class="flex items-center gap-1.5 font-mono text-xs" aria-label="Language">
   <a
-    href="/"
+    href="/dev/"
     data-lang="en"
     aria-current={locale === 'en' ? 'page' : undefined}
     class={locale === 'en' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted'}>EN</a
   >
   <span class="text-faint">·</span>
   <a
-    href="/pt/"
+    href="/pt/dev/"
     data-lang="pt"
     aria-current={locale === 'pt-BR' ? 'page' : undefined}
     class={locale === 'pt-BR' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted'}>PT</a

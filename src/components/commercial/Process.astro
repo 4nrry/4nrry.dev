@@ -1,0 +1,40 @@
+---
+const steps = [
+  {
+    title: 'Você me chama no WhatsApp.',
+    body: 'Sem formulário, sem call marcada pra semana que vem. Me conta o que precisa, do seu jeito.',
+  },
+  {
+    title: 'Eu volto com uma proposta clara.',
+    body: 'Escopo, prazo e preço fechado, por escrito. Sem hora extra surpresa, sem letra miúda.',
+  },
+  {
+    title: 'Você acompanha o desenvolvimento.',
+    body: 'Entrego por etapas, você vê funcionando desde cedo e ajusta comigo no caminho.',
+  },
+  {
+    title: 'Entrega sem dependência.',
+    body: 'Tudo documentado, domínio e acessos no seu nome, código seu. Se um dia quiser trabalhar com outro dev, ele pega tudo pronto. Se quiser que eu siga cuidando, existe manutenção mensal.',
+  },
+];
+---
+
+<section id="como-funciona" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+  <p class="eyebrow">como-funciona</p>
+  <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Do primeiro oi à entrega</h2>
+  <ol class="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+    {
+      steps.map((step, i) => (
+        <li class="flex gap-4">
+          <span class="font-mono text-3xl font-bold text-accent" aria-hidden="true">
+            {i + 1}
+          </span>
+          <div>
+            <h3 class="font-semibold">{step.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">{step.body}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>

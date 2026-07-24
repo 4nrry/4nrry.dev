@@ -1,0 +1,33 @@
+---
+const stats = [
+  { key: 'contributions', fallback: '6.062', label: 'contribuições de código em 2 anos' },
+  { key: 'prs', fallback: '1.019', label: 'entregas revisadas e aprovadas' },
+  { key: 'repos', fallback: '31', label: 'projetos tocados' },
+];
+---
+
+<section id="prova" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+  <p class="eyebrow">por-baixo-do-capo</p>
+  <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Não precisa acreditar só na minha palavra</h2>
+  <p class="mt-3 max-w-2xl leading-relaxed text-muted">
+    Meu trabalho é público. Os números abaixo vêm do meu GitHub e se atualizam sozinhos a cada seis
+    horas.
+  </p>
+  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    {
+      stats.map((s) => (
+        <div class="card p-6">
+          <p class="font-mono text-3xl font-bold text-accent-bright" data-proof={s.key}>
+            {s.fallback}
+          </p>
+          <p class="mt-1.5 text-sm text-muted">{s.label}</p>
+        </div>
+      ))
+    }
+  </div>
+  <a
+    href="/pt/dev/"
+    class="mt-6 inline-block rounded border border-border px-4 py-2 font-mono text-sm text-muted transition-colors hover:border-accent hover:text-accent-bright"
+    >ver o portfólio técnico completo →</a
+  >
+</section>

@@ -1,0 +1,42 @@
+---
+const cases = [
+  {
+    name: 'SmartCompost',
+    tag: 'case principal',
+    color: 'var(--color-org-smart)',
+    body: 'Uma startup de compostagem inteligente precisava transformar equipamento em produto digital. Entrei como primeiro e único desenvolvedor e construí a plataforma completa: site, aplicativo, painéis e a ponte com os equipamentos. Hoje o produto está em produção, com clientes acompanhando a compostagem em tempo real, e eu sigo como engenheiro responsável. No caminho, formei um estagiário que hoje entrega no meu nível.',
+  },
+  {
+    name: 'Ocean Words',
+    tag: 'em construção',
+    color: 'var(--color-org-ocean)',
+    body: 'Minha namorada é professora de inglês e vive o problema de todo professor autônomo: material espalhado e aluno sem um lugar só. Estamos construindo juntos a plataforma de ensino dela: aulas, conteúdo e acompanhamento no mesmo lugar.',
+  },
+];
+---
+
+<section id="projetos" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+  <p class="eyebrow">projetos</p>
+  <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Trabalho de verdade, que você pode conferir</h2>
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    {
+      cases.map((c) => (
+        <article class="card border-t-2 p-6" style={`border-top-color: ${c.color}`}>
+          <div class="flex items-baseline justify-between gap-3">
+            <h3 class="text-lg font-semibold">{c.name}</h3>
+            <span class="font-mono text-xs text-faint">{c.tag}</span>
+          </div>
+          <p class="mt-3 text-sm leading-relaxed text-muted">{c.body}</p>
+        </article>
+      ))
+    }
+  </div>
+  <p class="mt-6 max-w-3xl text-sm leading-relaxed text-faint">
+    E mais: <span class="text-muted"
+      ><span style="color: var(--color-org-lotvs)" aria-hidden="true">●</span> LOTVS</span
+    >, app de controle financeiro que mantenho com um colega de faculdade ·
+    <span class="text-muted"><span class="text-accent" aria-hidden="true">●</span> Temakuri</span>, jogo
+    de cartas online feito com um amigo, código aberto. De landing page a jogo em tempo real: eu
+    transito no espectro inteiro.
+  </p>
+</section>

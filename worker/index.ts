@@ -68,20 +68,26 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // Brazilian visitors land on the PT-BR page; an explicit language choice
+    // Brazilian visitors get the PT-BR portfolio; an explicit language choice
     // (cookie set by the toggle) always beats geo. `?geo=` is a test override
-    // because request.cf is empty in local dev.
-    if (url.pathname === '/') {
+    // because request.cf is empty in local dev. The commercial home at "/" is
+    // PT-BR for everyone and never redirects (geo there would break crawlers).
+    if (url.pathname === '/dev' || url.pathname === '/dev/') {
       const lang = readLangCookie(request);
       const country =
         url.searchParams.get('geo') ?? (request.cf as { country?: string } | undefined)?.country;
       if (lang !== 'en' && (lang === 'pt' || country === 'BR')) {
         return new Response(null, {
           status: 302,
-          headers: { location: '/pt/', 'cache-control': 'private, no-store' },
+          headers: { location: '/pt/dev/', 'cache-control': 'private, no-store' },
         });
       }
       return env.ASSETS.fetch(request);
+    }
+
+    // The PT portfolio lived at /pt/ before the commercial home took "/".
+    if (url.pathname === '/pt' || url.pathname === '/pt/') {
+      return Response.redirect(new URL('/pt/dev/', url).toString(), 301);
     }
 
     if (url.pathname.startsWith('/api/')) {

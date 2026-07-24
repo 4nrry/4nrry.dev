@@ -1,0 +1,57 @@
+---
+const services = [
+  {
+    title: 'Site que apresenta e vende',
+    who: 'Pra quem precisa existir bem na internet. Página rápida, que aparece no Google e leva o visitante direto pro seu WhatsApp.',
+    gets: [
+      'Site publicado no seu domínio',
+      'Texto e estrutura pensados pra converter',
+      'Autonomia pra atualizar o que precisar',
+    ],
+  },
+  {
+    title: 'Sistema que organiza a operação',
+    who: 'Pra quem vive de planilha, caderno e grupo de WhatsApp, e sente que a operação não escala.',
+    gets: [
+      'Sistema feito pro seu processo: agendamento, pedidos, estoque, relatórios',
+      'Automações que cortam trabalho manual',
+      'Acesso de qualquer lugar',
+    ],
+  },
+  {
+    title: 'Produto digital completo',
+    who: 'Pra quem tem uma ideia de produto e precisa de alguém que já fez isso antes.',
+    gets: [
+      'MVP de verdade rodando em produção',
+      'Base que aguenta crescer',
+      'Caminho claro de evolução',
+    ],
+  },
+];
+---
+
+<section id="servicos" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+  <p class="eyebrow">servicos</p>
+  <h2 class="mt-2 text-2xl font-bold sm:text-3xl">O que eu faço</h2>
+  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    {
+      services.map((s) => (
+        <article class="card flex flex-col p-6">
+          <h3 class="text-lg font-semibold leading-snug">{s.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">{s.who}</p>
+          <p class="mt-5 font-mono text-xs text-faint">você recebe</p>
+          <ul class="mt-2 space-y-2">
+            {s.gets.map((item) => (
+              <li class="flex gap-2 text-sm leading-relaxed text-muted">
+                <span class="mt-0.5 text-accent" aria-hidden="true">
+                  +
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

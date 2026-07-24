@@ -1,32 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import YearsRace from '../components/YearsRace.astro';
-import OrgsStory from '../components/OrgsStory.astro';
-import SystemsCases from '../components/SystemsCases.astro';
-import RepoBars from '../components/RepoBars.astro';
-import WeekdayHeatmap from '../components/WeekdayHeatmap.astro';
-import Languages from '../components/Languages.astro';
-import OpenSource from '../components/OpenSource.astro';
-import Trajectory from '../components/Trajectory.astro';
-import Footer from '../components/Footer.astro';
+import Hero from '../components/commercial/Hero.astro';
+import Services from '../components/commercial/Services.astro';
+import Cases from '../components/commercial/Cases.astro';
+import Process from '../components/commercial/Process.astro';
+import UnderTheHood from '../components/commercial/UnderTheHood.astro';
+import About from '../components/commercial/About.astro';
+import Faq from '../components/commercial/Faq.astro';
+import CtaFinal from '../components/commercial/CtaFinal.astro';
 ---
 
-<Layout>
+<Layout
+  lang="pt-BR"
+  title="Anrry Petrin · Sites e sistemas sob medida"
+  description="Sites, sistemas e automações sob medida pra pequenos e médios negócios. Proposta com preço fechado, entrega documentada, código seu. Chama no WhatsApp."
+  ogImage="/og-comercial.png"
+  ogLocale="pt_BR"
+  withHreflang={false}
+  pending={false}
+>
   <main>
     <Hero />
-    <YearsRace />
-    <OrgsStory />
-    <SystemsCases />
-    <RepoBars />
-    <WeekdayHeatmap />
-    <Languages />
-    <OpenSource />
-    <Trajectory />
-    <Footer />
+    <Services />
+    <Cases />
+    <Process />
+    <UnderTheHood />
+    <About />
+    <Faq />
+    <CtaFinal />
   </main>
 </Layout>
 
 <script>
-  import '../scripts/data';
+  import '../scripts/commercial';
 </script>
