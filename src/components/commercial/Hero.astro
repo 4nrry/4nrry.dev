@@ -1,5 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import WhatsAppButton from './WhatsAppButton.astro';
+// Swap src/assets/portrait.jpg to change the hero portrait; nothing else moves.
+import portrait from '../../assets/portrait.jpg';
 ---
 
 <header class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 pt-8">
@@ -12,23 +15,35 @@ import WhatsAppButton from './WhatsAppButton.astro';
   >
 </header>
 
-<section class="mx-auto max-w-5xl px-6 pb-16 pt-16 sm:pb-24 sm:pt-24">
-  <div class="max-w-3xl">
-    <h1 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-      Site, sistema ou automação <span class="text-accent-bright">sob medida</span> pro seu negócio.
-    </h1>
-    <p class="mt-6 text-lg leading-relaxed text-muted">
-      Eu sou o Anrry, engenheiro de software. Construí do zero o produto de uma startup, de ponta a
-      ponta, e hoje coloco essa experiência a serviço de pequenos e médios negócios: do site que
-      apresenta sua empresa ao sistema que organiza sua operação.
-    </p>
-    <div class="mt-9 flex flex-wrap items-center gap-5">
-      <WhatsAppButton />
-      <a
-        href="#servicos"
-        class="font-mono text-sm text-muted transition-colors hover:text-accent-bright"
-        >ver o que eu faço ↓</a
-      >
+<section class="mx-auto max-w-5xl px-6 pb-16 pt-10 sm:pb-24 sm:pt-24">
+  <div class="flex flex-col gap-6 md:flex-row md:items-center md:gap-14">
+    <div class="max-w-3xl md:flex-1">
+      <h1 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+        Site, sistema ou automação <span class="text-accent-bright">sob medida</span> pro seu negócio.
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-muted">
+        Eu sou o Anrry, engenheiro de software. Construí do zero o produto de uma startup, de ponta a
+        ponta, e hoje coloco essa experiência a serviço de pequenos e médios negócios: do site que
+        apresenta sua empresa ao sistema que organiza sua operação.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <WhatsAppButton />
+        <a
+          href="#servicos"
+          class="font-mono text-sm text-muted transition-colors hover:text-accent-bright"
+          >ver o que eu faço ↓</a
+        >
+      </div>
+    </div>
+    <div class="order-first shrink-0 md:order-none">
+      <Image
+        src={portrait}
+        alt="Anrry Petrin"
+        widths={[192, 448]}
+        sizes="(min-width: 768px) 224px, 96px"
+        loading="eager"
+        class="h-24 w-24 rounded-full object-cover ring-2 ring-accent/50 md:h-56 md:w-56"
+      />
     </div>
   </div>
 </section>
