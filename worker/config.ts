@@ -40,9 +40,9 @@ export const ORG_META: Record<(typeof ALLOWED_ORG_OWNERS)[number], OrgMeta> = {
   LOTVSFinance: {
     displayName: 'LOTVS Finance',
     narrative:
-      'A fintech I started with a college friend. TypeScript end to end: NestJS backend, React frontend and landing page. My single most PR-heavy repository lives here.',
+      'A fintech I started with André Franceschini (@franceschinii), a friend from college. TypeScript end to end: NestJS backend, React frontend and landing page. My single most PR-heavy repository lives here.',
     narrativePt:
-      'Uma fintech que comecei com um amigo de faculdade. TypeScript de ponta a ponta: backend NestJS, frontend React e landing page. Meu repositório mais pesado em PRs vive aqui.',
+      'Uma fintech que comecei com o André Franceschini (@franceschinii), amigo de faculdade. TypeScript de ponta a ponta: backend NestJS, frontend React e landing page. Meu repositório mais pesado em PRs vive aqui.',
     accent: '#60a5fa',
   },
   'ocean-words': {
@@ -108,9 +108,9 @@ export const SHOWCASE: ShowcaseMeta[] = [
     title: 'Temakuri',
     repos: ['franceschinii/temakuri-frontend', 'franceschinii/temakuri-backend'],
     blurb:
-      'A multiplayer web card game built with my friend André, who open-sourced it. I shipped across both halves: React 19 + Socket.IO on the front, NestJS 11 + Prisma on the back.',
+      'A multiplayer web card game built with my friend André Franceschini (@franceschinii), who open-sourced it. I shipped across both halves: React 19 + Socket.IO on the front, NestJS 11 + Prisma on the back.',
     blurbPt:
-      'Um jogo de cartas multiplayer web feito com meu amigo André, que abriu o código. Entreguei nas duas metades: React 19 + Socket.IO na frente, NestJS 11 + Prisma atrás.',
+      'Um jogo de cartas multiplayer web feito com meu amigo André Franceschini (@franceschinii), que abriu o código. Entreguei nas duas metades: React 19 + Socket.IO na frente, NestJS 11 + Prisma atrás.',
     url: 'https://github.com/franceschinii/temakuri-frontend',
     tech: ['React 19', 'Socket.IO', 'NestJS 11', 'Prisma'],
   },
