@@ -1,15 +1,24 @@
 ---
 import { resolveLocale, ui } from '../i18n/ui';
 import LangToggle from './LangToggle.astro';
-const t = ui[resolveLocale(Astro.currentLocale)].hero;
+const locale = resolveLocale(Astro.currentLocale);
+const t = ui[locale].hero;
+// Same label as the footer link back to the commercial home.
+const backHome = ui[locale].contact.hire;
 ---
 
 <header data-journey="hero" class="mx-auto max-w-5xl px-6 pt-16 sm:pt-24 pb-10">
-  <div class="flex items-baseline justify-between gap-4">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
     <p class="font-mono text-xs sm:text-sm text-faint">
       anrry@4nrry.dev:~$ <span class="text-accent">replay</span> --since "2 years ago"
     </p>
-    <LangToggle />
+    <div class="flex items-baseline gap-4">
+      <a
+        href="/"
+        class="font-mono text-xs text-accent-bright transition-colors hover:text-accent">← {backHome}</a
+      >
+      <LangToggle />
+    </div>
   </div>
   <h1 class="mt-6 font-mono text-5xl sm:text-7xl font-extrabold tracking-tight">Anrry Petrin</h1>
   <p class="mt-4 max-w-xl text-lg text-muted">{t.role}</p>
