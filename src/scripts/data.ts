@@ -1,5 +1,6 @@
 import { SCHEMA_VERSION, type PortfolioDataset } from '../../shared/schema';
 import { formatInt, play, playOnView, reducedMotion, themeColor } from './anim';
+import { wireThemeToggle } from './theme';
 import { createCalendarReplay } from './calendar-replay';
 import { createLanguagesViz } from './languages-viz';
 import { createRepoBars, type RepoBarRow } from './repo-bars';
@@ -329,6 +330,7 @@ function bootOpenSource(data: PortfolioDataset): void {
 
 async function boot(): Promise<void> {
   wireLangToggle();
+  wireThemeToggle();
   const data = await fetchPortfolio();
   const syncChip = byId('sync-chip');
   if (!data) {

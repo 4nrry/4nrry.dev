@@ -39,7 +39,30 @@ const ogImage = new URL(ogImagePath, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09090b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {/* Applies a saved theme before the first paint, so a light-mode visitor
+        never sees a dark flash. Kept inline and tiny on purpose. */}
+    <script is:inline>
+      (() => {
+        let saved = null;
+        try {
+          saved = localStorage.getItem('theme');
+        } catch {
+          /* storage blocked; fall back to the system preference */
+        }
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.dataset.theme = saved;
+        }
+        const light =
+          saved === 'light' ||
+          (!saved && window.matchMedia('(prefers-color-scheme: light)').matches);
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', light ? '#fafaf9' : '#09090b');
+      })();
+    </script>
     <link rel="canonical" href={canonical} />
     {
       withHreflang && (

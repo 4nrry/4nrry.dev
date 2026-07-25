@@ -1,3 +1,5 @@
+import { wireThemeToggle } from './theme';
+
 // Live proof numbers on the commercial home. The HTML ships with static
 // fallbacks, so this only upgrades them when the dataset is reachable.
 const nf = new Intl.NumberFormat('pt-BR');
@@ -24,4 +26,5 @@ async function boot(): Promise<void> {
   }
 }
 
+wireThemeToggle();
 void boot();

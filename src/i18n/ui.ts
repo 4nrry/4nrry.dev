@@ -26,6 +26,8 @@ const en = {
     counterStreak: 'longest streak, days',
     chipConnecting: 'connecting to the worker',
     replay: 'replay',
+    themeToLight: 'Switch to the light theme',
+    themeToDark: 'Switch to the dark theme',
     caption:
       'Each cell is one day of the last two years, synced live from the GitHub API. Most of this work lives in private repositories; the totals count it anyway.',
     tableSummary: 'data table: contributions by month',
@@ -155,6 +157,8 @@ const pt: typeof en = {
     counterStreak: 'maior sequência, dias',
     chipConnecting: 'conectando ao worker',
     replay: 'replay',
+    themeToLight: 'Mudar para o tema claro',
+    themeToDark: 'Mudar para o tema escuro',
     caption:
       'Cada célula é um dia dos últimos dois anos, sincronizado ao vivo da API do GitHub. A maior parte desse trabalho vive em repositórios privados; os totais contam mesmo assim.',
     tableSummary: 'tabela: contribuições por mês',

@@ -15,6 +15,13 @@ export function reducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+/** Canvases that must be repainted when the theme flips. See onThemeChange. */
+const redrawers = new Set<() => void>();
+
+function registerRedraw(redraw: () => void): void {
+  redrawers.add(redraw);
+}
+
 export function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
@@ -52,6 +59,7 @@ export function setupCanvas(
     onResize?.();
   });
   observer.observe(canvas);
+  if (onResize) registerRedraw(onResize);
   return context;
 }
 
@@ -108,9 +116,35 @@ export function playOnView(element: Element, viz: Viz, replayButton?: HTMLElemen
   });
 }
 
-/** Amber heat ramp: one hue, lightness-monotonic, for magnitude encodings. */
-const HEAT_STOPS = ['#26170a', '#78350f', '#b45309', '#d97706', '#f59e0b', '#fbbf24', '#fde68a'];
-export const HEAT_ZERO = '#131316';
+/**
+ * Amber heat ramp: one hue, lightness-monotonic, for magnitude encodings.
+ * The ramp runs away from the page surface, so it inverts with the theme:
+ * dark rises to bright amber, light sinks to deep amber.
+ */
+const HEAT_DARK = ['#26170a', '#78350f', '#b45309', '#d97706', '#f59e0b', '#fbbf24', '#fde68a'];
+const HEAT_LIGHT = ['#fef3c7', '#fde68a', '#fcd34d', '#f59e0b', '#d97706', '#b45309', '#78350f'];
+const ZERO_DARK = '#131316';
+const ZERO_LIGHT = '#e7e5e4';
+
+function isLightTheme(): boolean {
+  const forced = document.documentElement.dataset.theme;
+  if (forced === 'light') return true;
+  if (forced === 'dark') return false;
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
+// Resolved once per theme rather than per cell: a full calendar render asks for
+// hundreds of colors.
+let heatStops = HEAT_DARK;
+export let HEAT_ZERO = ZERO_DARK;
+
+function applyThemeConstants(): void {
+  const light = isLightTheme();
+  heatStops = light ? HEAT_LIGHT : HEAT_DARK;
+  HEAT_ZERO = light ? ZERO_LIGHT : ZERO_DARK;
+}
+
+if (typeof document !== 'undefined') applyThemeConstants();
 
 function hexToRgb(hex: string): [number, number, number] {
   const value = parseInt(hex.slice(1), 16);
@@ -120,14 +154,24 @@ function hexToRgb(hex: string): [number, number, number] {
 export function heatColor(t: number): string {
   if (t <= 0) return HEAT_ZERO;
   const clamped = Math.min(Math.max(t, 0), 1);
-  const scaled = clamped * (HEAT_STOPS.length - 1);
-  const index = Math.min(Math.floor(scaled), HEAT_STOPS.length - 2);
+  const scaled = clamped * (heatStops.length - 1);
+  const index = Math.min(Math.floor(scaled), heatStops.length - 2);
   const mix = scaled - index;
-  const [r1, g1, b1] = hexToRgb(HEAT_STOPS[index]!);
-  const [r2, g2, b2] = hexToRgb(HEAT_STOPS[index + 1]!);
+  const [r1, g1, b1] = hexToRgb(heatStops[index]!);
+  const [r2, g2, b2] = hexToRgb(heatStops[index + 1]!);
   return `rgb(${Math.round(r1 + (r2 - r1) * mix)} ${Math.round(g1 + (g2 - g1) * mix)} ${Math.round(
     b1 + (b2 - b1) * mix,
   )})`;
+}
+
+/**
+ * Repaints every canvas. Each one reuses the "redraw at the current progress"
+ * callback it already hands to setupCanvas for resizes, so no visualization
+ * module needs to know themes exist.
+ */
+export function onThemeChange(): void {
+  applyThemeConstants();
+  for (const redraw of redrawers) redraw();
 }
 
 export function themeColor(name: string): string {

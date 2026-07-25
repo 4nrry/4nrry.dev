@@ -2,13 +2,21 @@
 // protocol. Needed for pages whose work never goes idle (WebGL, infinite
 // animations), where --virtual-time-budget hangs forever.
 //
-// usage: node shot.mjs <url> <out.png> [waitMs] [width] [height] [hideSelector]
+// usage: node shot.mjs <url> <out.png> [waitMs] [width] [height] [hideSelector] [scheme]
+//   scheme: "light" | "dark" emulates prefers-color-scheme; omit to use the default.
 import { writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const [url, out, waitMs = '12000', width = '1280', height = '800', hideSelector = ''] =
-  process.argv.slice(2);
+const [
+  url,
+  out,
+  waitMs = '12000',
+  width = '1280',
+  height = '800',
+  hideSelector = '',
+  scheme = '',
+] = process.argv.slice(2);
 
 const PORT = 9222 + Math.floor(process.uptime() * 10) % 100;
 
@@ -65,6 +73,11 @@ const send = (method, params = {}) =>
   });
 
 await send('Page.enable');
+if (scheme === 'light' || scheme === 'dark') {
+  await send('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-color-scheme', value: scheme }],
+  });
+}
 await send('Page.navigate', { url });
 await sleep(Number(waitMs));
 

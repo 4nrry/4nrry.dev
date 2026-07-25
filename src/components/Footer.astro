@@ -1,7 +1,10 @@
 ---
 import { resolveLocale, ui } from '../i18n/ui';
 import LangToggle from './LangToggle.astro';
-const t = ui[resolveLocale(Astro.currentLocale)].contact;
+import ThemeToggle from './ThemeToggle.astro';
+const locale = resolveLocale(Astro.currentLocale);
+const t = ui[locale].contact;
+const hero = ui[locale].hero;
 ---
 
 <footer id="contact" class="mx-auto max-w-5xl px-6 pb-20 pt-14 sm:pt-16">
@@ -30,6 +33,9 @@ const t = ui[resolveLocale(Astro.currentLocale)].contact;
       {t.noteInspired}
       <a class="underline underline-offset-2 hover:text-muted" href="https://github.com/akitaonrails/github-visualize" rel="noopener">akitaonrails/github-visualize</a>.
     </p>
-    <LangToggle />
+    <div class="flex items-center gap-4">
+      <LangToggle />
+      <ThemeToggle toLight={hero.themeToLight} toDark={hero.themeToDark} />
+    </div>
   </div>
 </footer>

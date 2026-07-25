@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import WhatsAppButton from './WhatsAppButton.astro';
+import ThemeToggle from '../ThemeToggle.astro';
 // Swap src/assets/portrait.jpg to change the hero portrait; nothing else moves.
 import portrait from '../../assets/portrait.jpg';
 ---
@@ -10,9 +11,12 @@ import portrait from '../../assets/portrait.jpg';
     <span class="font-bold">Anrry Petrin</span>
     <span class="text-faint"> · desenvolvimento sob medida</span>
   </p>
-  <a href="/pt/dev/" class="font-mono text-xs text-faint transition-colors hover:text-muted"
-    >portfólio dev →</a
-  >
+  <div class="flex items-center gap-4">
+    <a href="/pt/dev/" class="font-mono text-xs text-faint transition-colors hover:text-muted"
+      >portfólio dev →</a
+    >
+    <ThemeToggle />
+  </div>
 </header>
 
 <section class="mx-auto max-w-5xl px-6 pb-16 pt-10 sm:pb-24 sm:pt-24">
