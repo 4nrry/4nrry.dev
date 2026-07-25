@@ -4,6 +4,7 @@ import energyflux from '../../assets/lp-energyflux.jpg';
 import nutrirebrincar from '../../assets/lp-nutrirebrincar.jpg';
 import oceanwords from '../../assets/lp-oceanwords.jpg';
 import lotvs from '../../assets/lp-lotvs.jpg';
+import smartcompost from '../../assets/lp-smartcompost.jpg';
 
 const sites = [
   {
@@ -26,9 +27,11 @@ const sites = [
 
 const SMART_COMPOST = {
   name: 'SmartCompost',
-  kind: 'meu trabalho principal',
-  color: 'var(--color-org-smart)',
-  body: 'Plataforma de compostagem inteligente. Entrei como primeiro e único desenvolvedor e construí o produto completo: site, aplicativo, painéis e a ponte com os equipamentos. Hoje está em produção, com clientes acompanhando a compostagem em tempo real, e eu sigo lá como engenheiro responsável.',
+  kind: 'Monitoramento de resíduos · meu trabalho principal',
+  body: 'Entrei como primeiro e único desenvolvedor e construí o produto completo: este site, o aplicativo, os painéis e a ponte com os equipamentos em campo. Hoje está em produção, com clientes acompanhando o monitoramento em tempo real, e eu sigo lá como engenheiro responsável.',
+  href: 'https://smartcompost.com.br',
+  label: 'smartcompost.com.br',
+  image: smartcompost,
 };
 
 const products = [
@@ -66,19 +69,14 @@ const products = [
 
   <h3 class="mt-16 text-xl font-bold sm:text-2xl">Produtos que eu construí do zero</h3>
   <p class="mt-3 max-w-2xl leading-relaxed text-muted">
-    Quando o problema é maior que uma página, eu vou até o fim. Estes dois são meus, estão no ar e
-    você pode entrar e usar.
+    Quando o problema é maior que uma página, eu vou até o fim. Os três estão no ar e você pode
+    entrar e conferir.
   </p>
   <div class="mt-8 grid gap-5 sm:grid-cols-2">
     {products.map((item) => <SiteCard item={item} />)}
   </div>
 
-  <article class="card mt-5 border-t-2 p-6" style={`border-top-color: ${SMART_COMPOST.color}`}>
-    <div class="flex flex-wrap items-baseline justify-between gap-2">
-      <h4 class="font-semibold">{SMART_COMPOST.name}</h4>
-      <span class="font-mono text-xs text-faint">{SMART_COMPOST.kind}</span>
-    </div>
-    <p class="mt-3 max-w-3xl text-sm leading-relaxed text-muted">{SMART_COMPOST.body}</p>
-  </article>
-
+  <div class="mt-5">
+    <SiteCard item={SMART_COMPOST} wide />
+  </div>
 </section>

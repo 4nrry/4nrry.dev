@@ -12,23 +12,33 @@ interface Props {
     image: ImageMetadata;
     partner?: { label: string; href: string };
   };
+  /** Image beside the text instead of above it, for a full-width card. */
+  wide?: boolean;
 }
 
-const { item } = Astro.props;
+const { item, wide = false } = Astro.props;
 ---
 
-<article class="card overflow-hidden">
-  <a href={item.href} rel="noopener" class="block" aria-label={`Abrir o site da ${item.name}`}>
+<article class:list={['card overflow-hidden', wide && 'sm:flex sm:items-stretch']}>
+  <a
+    href={item.href}
+    rel="noopener"
+    class:list={['block', wide && 'sm:w-1/2 sm:shrink-0']}
+    aria-label={`Abrir o site da ${item.name}`}
+  >
     <Image
       src={item.image}
       alt={`Página inicial do site da ${item.name}`}
       widths={[640, 1280]}
-      sizes="(min-width: 640px) 460px, 100vw"
+      sizes="(min-width: 640px) 512px, 100vw"
       loading="lazy"
-      class="aspect-[8/5] w-full border-b border-border object-cover object-top transition-opacity hover:opacity-90"
+      class:list={[
+        'aspect-[8/5] w-full object-cover object-top transition-opacity hover:opacity-90',
+        wide ? 'border-b border-border sm:h-full sm:border-b-0 sm:border-r' : 'border-b border-border',
+      ]}
     />
   </a>
-  <div class="p-6">
+  <div class:list={['p-6', wide && 'sm:flex-1']}>
     <h3 class="text-lg font-semibold">{item.name}</h3>
     <p class="mt-1 font-mono text-xs text-faint">
       {item.kind}
