@@ -1,7 +1,9 @@
 ---
-import { Image } from 'astro:assets';
+import SiteCard from './SiteCard.astro';
 import energyflux from '../../assets/lp-energyflux.jpg';
 import nutrirebrincar from '../../assets/lp-nutrirebrincar.jpg';
+import oceanwords from '../../assets/lp-oceanwords.jpg';
+import lotvs from '../../assets/lp-lotvs.jpg';
 
 const sites = [
   {
@@ -22,18 +24,29 @@ const sites = [
   },
 ];
 
-const systems = [
-  {
-    name: 'SmartCompost',
-    kind: 'Plataforma de compostagem inteligente',
-    color: 'var(--color-org-smart)',
-    body: 'Entrei como primeiro e único desenvolvedor e construí a plataforma completa: site, aplicativo, painéis e a ponte com os equipamentos. Hoje o produto está em produção, com clientes acompanhando a compostagem em tempo real, e eu sigo como engenheiro responsável.',
-  },
+const SMART_COMPOST = {
+  name: 'SmartCompost',
+  kind: 'meu trabalho principal',
+  color: 'var(--color-org-smart)',
+  body: 'Plataforma de compostagem inteligente. Entrei como primeiro e único desenvolvedor e construí o produto completo: site, aplicativo, painéis e a ponte com os equipamentos. Hoje está em produção, com clientes acompanhando a compostagem em tempo real, e eu sigo lá como engenheiro responsável.',
+};
+
+const products = [
   {
     name: 'Ocean Words',
-    kind: 'Plataforma de ensino de inglês',
-    color: 'var(--color-org-ocean)',
-    body: 'Minha namorada dá aulas de inglês e vive o problema de todo professor autônomo: material espalhado e aluno sem um lugar só. Estamos construindo juntos a plataforma dela: aulas, conteúdo e acompanhamento no mesmo lugar.',
+    kind: 'Escola de inglês · Sorocaba',
+    body: 'A escola da minha namorada, que dá as aulas. Construí a plataforma inteira: site, agendamento de aula experimental, área do aluno e os jogos de praticar.',
+    href: 'https://oceanwords.academy',
+    label: 'oceanwords.academy',
+    image: oceanwords,
+  },
+  {
+    name: 'LOTVS Finance',
+    kind: 'Controle financeiro pessoal',
+    body: 'App que mostra pra onde vai o seu dinheiro, mês a mês. Toco junto com o André Franceschini e cuido do produto de ponta a ponta: painel, backend e a página que abre aí.',
+    href: 'https://lotvs.finance',
+    label: 'lotvs.finance',
+    image: lotvs,
   },
 ];
 ---
@@ -47,62 +60,34 @@ const systems = [
   </p>
 
   <div class="mt-8 grid gap-5 sm:grid-cols-2">
-    {
-      sites.map((site) => (
-        <article class="card overflow-hidden">
-          <a href={site.href} rel="noopener" class="block" aria-label={`Abrir o site da ${site.name}`}>
-            <Image
-              src={site.image}
-              alt={`Página inicial do site da ${site.name}`}
-              widths={[640, 1280]}
-              sizes="(min-width: 640px) 460px, 100vw"
-              loading="lazy"
-              class="aspect-[8/5] w-full border-b border-border object-cover object-top transition-opacity hover:opacity-90"
-            />
-          </a>
-          <div class="p-6">
-            <h3 class="text-lg font-semibold">{site.name}</h3>
-            <p class="mt-1 font-mono text-xs text-faint">{site.kind}</p>
-            <p class="mt-3 text-sm leading-relaxed text-muted">{site.body}</p>
-            <a
-              href={site.href}
-              rel="noopener"
-              class="mt-4 inline-block font-mono text-sm text-accent-bright transition-colors hover:text-accent"
-            >
-              ver o site no ar: {site.label} →
-            </a>
-          </div>
-        </article>
-      ))
-    }
+    {sites.map((item) => <SiteCard item={item} />)}
   </div>
 
-  <h3 class="mt-14 text-xl font-bold sm:text-2xl">Também construo sistemas</h3>
+  <h3 class="mt-16 text-xl font-bold sm:text-2xl">Produtos que eu construí do zero</h3>
   <p class="mt-3 max-w-2xl leading-relaxed text-muted">
-    Quando o problema é maior que uma página, eu vou até o fim: produto rodando em produção, com
-    usuário de verdade dentro.
+    Quando o problema é maior que uma página, eu vou até o fim. Estes dois são meus, estão no ar e
+    você pode entrar e usar.
   </p>
-  <div class="mt-6 grid gap-4 sm:grid-cols-2">
-    {
-      systems.map((s) => (
-        <article class="card border-t-2 p-6" style={`border-top-color: ${s.color}`}>
-          <h4 class="font-semibold">{s.name}</h4>
-          <p class="mt-1 font-mono text-xs text-faint">{s.kind}</p>
-          <p class="mt-3 text-sm leading-relaxed text-muted">{s.body}</p>
-        </article>
-      ))
-    }
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    {products.map((item) => <SiteCard item={item} />)}
   </div>
+
+  <article class="card mt-5 border-t-2 p-6" style={`border-top-color: ${SMART_COMPOST.color}`}>
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h4 class="font-semibold">{SMART_COMPOST.name}</h4>
+      <span class="font-mono text-xs text-faint">{SMART_COMPOST.kind}</span>
+    </div>
+    <p class="mt-3 max-w-3xl text-sm leading-relaxed text-muted">{SMART_COMPOST.body}</p>
+  </article>
+
   <p class="mt-6 max-w-3xl text-sm leading-relaxed text-faint">
-    E mais dois que eu toco junto com o <a
+    Tem ainda o <span class="text-muted"
+      ><span class="text-accent" aria-hidden="true">●</span> Temakuri</span
+    >, jogo de cartas online em tempo real que fiz com o <a
       class="text-muted underline underline-offset-2 transition-colors hover:text-accent-bright"
       href="https://andrefranceschini.com.br"
       rel="noopener">André Franceschini</a
-    >, consultor de sistemas aqui de Sorocaba: <span class="text-muted"
-      ><span style="color: var(--color-org-lotvs)" aria-hidden="true">●</span> LOTVS</span
-    >, app de controle financeiro, e <span class="text-muted"
-      ><span class="text-accent" aria-hidden="true">●</span> Temakuri</span
-    >, jogo de cartas online em tempo real, de código aberto. De landing page a jogo multiplayer: eu
-    transito no espectro inteiro.
+    >, o mesmo parceiro da LOTVS, e que a gente deixou de código aberto. De landing page a jogo
+    multiplayer: eu transito no espectro inteiro.
   </p>
 </section>
