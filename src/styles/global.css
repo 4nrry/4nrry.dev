@@ -169,6 +169,27 @@ html {
   text-align: left;
 }
 
+/*
+ * Entrance reveal. Opacity plus a small rise, never a layout-affecting
+ * property, so nothing shifts while it plays. Elements are visible by default
+ * and only hidden once the observer has claimed them (`data-reveal-armed`), so
+ * a visitor without JS reads a normal page instead of a blank one.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal-armed] .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  [data-reveal-armed] .reveal.revealed {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 620ms ease,
+      transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+}
+
 /* Org card mini-bars reveal on scroll */
 .org-card .org-bar {
   width: var(--w);

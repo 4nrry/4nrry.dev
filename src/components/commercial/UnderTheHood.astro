@@ -13,10 +13,10 @@ const stats = [
     Meu trabalho é público. Os números abaixo vêm do meu GitHub e se atualizam sozinhos a cada seis
     horas.
   </p>
-  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+  <div class="mt-8 grid gap-4 sm:grid-cols-3" data-reveal-group>
     {
       stats.map((s) => (
-        <div class="card p-6">
+        <div class="card reveal p-6">
           <p class="font-mono text-3xl font-bold text-accent-bright" data-proof={s.key}>
             {s.fallback}
           </p>

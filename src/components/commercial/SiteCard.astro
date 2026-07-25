@@ -19,7 +19,7 @@ interface Props {
 const { item, wide = false } = Astro.props;
 ---
 
-<article class:list={['card overflow-hidden', wide && 'sm:flex sm:items-stretch']}>
+<article class:list={['card reveal overflow-hidden', wide && 'sm:flex sm:items-stretch']}>
   <a
     href={item.href}
     rel="noopener"
