@@ -190,6 +190,17 @@ html {
   }
 }
 
+/*
+ * Contribution terrain. The canvas owns pointer-driven camera parallax, so it
+ * has to hand vertical gestures back to the page or touch scrolling snags on it.
+ * Height is written inline by setupCanvas once the dataset arrives; the figure
+ * is still below the fold at that point, so nothing visible shifts.
+ */
+.terrain {
+  display: block;
+  touch-action: pan-y;
+}
+
 /* Org card mini-bars reveal on scroll */
 .org-card .org-bar {
   width: var(--w);

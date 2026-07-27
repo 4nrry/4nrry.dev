@@ -1,3 +1,5 @@
+import type { PortfolioDataset } from '../../shared/schema';
+import { mountTerrain } from './terrain';
 import { wireThemeToggle } from './theme';
 
 /**
@@ -69,28 +71,44 @@ function wireCountUp(element: HTMLElement, value: number): void {
 // fallbacks, so this only upgrades them when the dataset is reachable.
 const nf = new Intl.NumberFormat('pt-BR');
 
-async function boot(): Promise<void> {
-  try {
-    const res = await fetch('/api/portfolio.json');
-    if (!res.ok) return;
-    const data = (await res.json()) as {
-      totals?: { contributions?: number; prsAuthored?: number; reposContributed?: number };
-    };
-    const values: Record<string, number | undefined> = {
-      contributions: data.totals?.contributions,
-      prs: data.totals?.prsAuthored,
-      repos: data.totals?.reposContributed,
-    };
-    for (const [key, value] of Object.entries(values)) {
-      if (typeof value !== 'number') continue;
-      const el = document.querySelector<HTMLElement>(`[data-proof="${key}"]`);
-      if (el) wireCountUp(el, value);
-    }
-  } catch {
-    // keep the static fallbacks
+/**
+ * One request, two consumers: the proof numbers and the terrain below them read
+ * the same payload. A cold KV answers 503, which resolves to null and leaves
+ * every static fallback in place.
+ */
+let pending: Promise<PortfolioDataset | null> | null = null;
+
+function dataset(): Promise<PortfolioDataset | null> {
+  pending ??= fetch('/api/portfolio.json')
+    .then((res) => (res.ok ? (res.json() as Promise<PortfolioDataset>) : null))
+    .catch(() => null);
+  return pending;
+}
+
+async function bootProofNumbers(): Promise<void> {
+  const data = await dataset();
+  if (!data) return;
+  const values: Record<string, number | undefined> = {
+    contributions: data.totals?.contributions,
+    prs: data.totals?.prsAuthored,
+    repos: data.totals?.reposContributed,
+  };
+  for (const [key, value] of Object.entries(values)) {
+    if (typeof value !== 'number') continue;
+    const el = document.querySelector<HTMLElement>(`[data-proof="${key}"]`);
+    if (el) wireCountUp(el, value);
   }
+}
+
+function bootTerrain(): void {
+  const figure = document.querySelector<HTMLElement>('[data-terrain]');
+  if (!figure) return;
+  const connection = (navigator as { connection?: { saveData?: boolean } }).connection;
+  if (connection?.saveData) return;
+  mountTerrain(figure, dataset);
 }
 
 wireThemeToggle();
 wireReveals();
-void boot();
+void bootProofNumbers();
+bootTerrain();
