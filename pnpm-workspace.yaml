@@ -1,0 +1,7 @@
+# pnpm >= 11 stopped reading the "pnpm" field in package.json; the build-script
+# allowlist lives here now. Same set the package.json field used to carry —
+# sharp is the one that matters, astro:assets needs it to optimize images.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
