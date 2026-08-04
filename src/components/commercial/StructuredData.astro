@@ -1,0 +1,94 @@
+---
+import { faqs } from './faqs';
+import { WHATSAPP_NUMBER } from './contact';
+
+/**
+ * Structured data for the commercial home, as one @graph so the nodes can
+ * reference each other by @id instead of repeating themselves.
+ *
+ * Deliberately absent: priceRange, aggregateRating, review, openingHours and a
+ * street address. Nothing on the page backs those up, and invented values are
+ * exactly what earns a manual action.
+ */
+const site = Astro.site ?? new URL('https://4nrry.dev');
+const base = new URL(Astro.url.pathname, site).href;
+const person = `${site.origin}/#anrry`;
+const business = `${site.origin}/#business`;
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': person,
+      name: 'Anrry Petrin',
+      url: site.origin,
+      image: new URL('/og-comercial.png', site).href,
+      jobTitle: 'Engenheiro de software',
+      knowsLanguage: ['pt-BR', 'en'],
+      sameAs: ['https://github.com/4nrry'],
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Sorocaba',
+        addressRegion: 'SP',
+        addressCountry: 'BR',
+      },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': business,
+      name: 'Anrry Petrin · Desenvolvimento sob medida',
+      description:
+        'Sites, sistemas e automações sob medida para pequenos e médios negócios, com proposta de preço fechado, entrega documentada e código do cliente.',
+      url: base,
+      image: new URL('/og-comercial.png', site).href,
+      telephone: `+${WHATSAPP_NUMBER}`,
+      founder: { '@id': person },
+      employee: { '@id': person },
+      // availableLanguage belongs on ContactPoint, not on the business itself.
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'Atendimento comercial',
+        telephone: `+${WHATSAPP_NUMBER}`,
+        availableLanguage: ['pt-BR', 'en'],
+      },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Sorocaba',
+        addressRegion: 'SP',
+        addressCountry: 'BR',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Sorocaba' },
+        { '@type': 'Country', name: 'Brasil' },
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Serviços',
+        itemListElement: [
+          'Site que apresenta e vende',
+          'Sistema que organiza a operação',
+          'Produto digital completo',
+        ].map((name) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name },
+        })),
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${base}#faq`,
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+
+// `<` is escaped so a stray "</script>" in copy can never close the block early.
+const json = JSON.stringify(graph).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" is:inline set:html={json} />
