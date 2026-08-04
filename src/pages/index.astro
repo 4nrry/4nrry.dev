@@ -8,6 +8,10 @@ import UnderTheHood from '../components/commercial/UnderTheHood.astro';
 import About from '../components/commercial/About.astro';
 import Faq from '../components/commercial/Faq.astro';
 import CtaFinal from '../components/commercial/CtaFinal.astro';
+import SiteNav from '../components/commercial/SiteNav.astro';
+import SiteFooter from '../components/commercial/SiteFooter.astro';
+import StickyWhatsApp from '../components/commercial/StickyWhatsApp.astro';
+import StructuredData from '../components/commercial/StructuredData.astro';
 ---
 
 <Layout
@@ -19,7 +23,9 @@ import CtaFinal from '../components/commercial/CtaFinal.astro';
   withHreflang={false}
   pending={false}
 >
-  <main>
+  <StructuredData slot="head" />
+  <SiteNav />
+  <main id="top">
     <Hero />
     <Services />
     <Cases />
@@ -29,6 +35,8 @@ import CtaFinal from '../components/commercial/CtaFinal.astro';
     <Faq />
     <CtaFinal />
   </main>
+  <SiteFooter />
+  <StickyWhatsApp />
 </Layout>
 
 <script>

@@ -89,6 +89,9 @@ const ogImage = new URL(ogImagePath, Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    {/* Per-page head extras — structured data, mainly. */}
+    <slot name="head" />
   </head>
   <body class="bg-bg text-text antialiased" data-pending={pending ? 'true' : undefined}>
     <slot />
