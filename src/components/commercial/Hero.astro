@@ -1,24 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import WhatsAppButton from './WhatsAppButton.astro';
-import ThemeToggle from '../ThemeToggle.astro';
 // Swap src/assets/portrait.jpg to change the hero portrait; nothing else moves.
 import portrait from '../../assets/portrait.jpg';
 ---
 
-<header class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 pt-8">
-  <p class="font-mono text-sm">
-    <span class="font-bold">Anrry Petrin</span>
-    <span class="text-faint"> · desenvolvimento sob medida</span>
-  </p>
-  <div class="flex items-center gap-4">
-    <a href="/pt/dev/" class="font-mono text-xs text-faint transition-colors hover:text-muted"
-      >portfólio dev →</a
-    >
-    <ThemeToggle />
-  </div>
-</header>
-
+{/* The name, the portfolio link and the theme toggle live in SiteNav now. */}
 <section class="mx-auto max-w-5xl px-6 pb-16 pt-10 sm:pb-24 sm:pt-24">
   <div class="flex flex-col gap-6 md:flex-row md:items-center md:gap-14">
     <div class="max-w-3xl md:flex-1">

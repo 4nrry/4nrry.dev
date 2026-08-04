@@ -1,6 +1,7 @@
 import type { PortfolioDataset } from '../../shared/schema';
 import { mountTerrain } from './terrain';
 import { wireThemeToggle } from './theme';
+import { wireStickyWhatsApp } from './sticky-wa';
 
 /**
  * Entrance reveals. Arming the document from JS keeps the page fully readable
@@ -110,5 +111,6 @@ function bootTerrain(): void {
 
 wireThemeToggle();
 wireReveals();
+wireStickyWhatsApp();
 void bootProofNumbers();
 bootTerrain();
