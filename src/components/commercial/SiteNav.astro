@@ -1,0 +1,48 @@
+---
+import ThemeToggle from '../ThemeToggle.astro';
+
+// Anchors follow the order the sections appear in on the page. Every id here
+// carries scroll-mt-20 so the sticky bar never covers the heading it lands on.
+const links = [
+  { href: '#servicos', label: 'serviços' },
+  { href: '#projetos', label: 'projetos' },
+  { href: '#como-funciona', label: 'como funciona' },
+  { href: '#faq', label: 'dúvidas' },
+];
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border/70 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70"
+>
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3">
+    {/* Tagline and the portfolio link wait for lg: between md and lg the nav
+        anchors appear, and all four together overflow the bar. */}
+    <a href="#top" class="font-mono text-sm whitespace-nowrap">
+      <span class="font-bold">Anrry Petrin</span>
+      <span class="hidden text-faint lg:inline"> · desenvolvimento sob medida</span>
+    </a>
+
+    <nav aria-label="Seções da página" class="hidden md:block">
+      <ul class="flex items-center gap-5 font-mono text-xs">
+        {
+          links.map((link) => (
+            <li>
+              <a class="text-muted transition-colors hover:text-accent-bright" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="/pt/dev/"
+        class="hidden font-mono text-xs whitespace-nowrap text-faint transition-colors hover:text-muted lg:inline"
+        >portfólio dev →</a
+      >
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
