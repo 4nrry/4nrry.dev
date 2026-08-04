@@ -30,10 +30,12 @@ const services = [
 ];
 ---
 
-<section id="servicos" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+<section id="servicos" class="mx-auto max-w-5xl scroll-mt-20 px-6 py-14 sm:py-16">
   <p class="eyebrow">servicos</p>
   <h2 class="mt-2 text-2xl font-bold sm:text-3xl">O que eu faço</h2>
-  <div class="mt-8 grid gap-4 sm:grid-cols-3" data-reveal-group>
+  {/* md, not sm: at 640px three columns leave ~190px per card, and these carry a
+      heading, a paragraph and three bullets each. */}
+  <div class="mt-8 grid gap-4 md:grid-cols-3" data-reveal-group>
     {
       services.map((s) => (
         <article class="card reveal flex flex-col p-6">

@@ -55,7 +55,7 @@ const products = [
 ];
 ---
 
-<section id="projetos" class="mx-auto max-w-5xl scroll-mt-8 px-6 py-14 sm:py-16">
+<section id="projetos" class="mx-auto max-w-5xl scroll-mt-20 px-6 py-14 sm:py-16">
   <p class="eyebrow">projetos</p>
   <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Sites que eu fiz pra negócios daqui</h2>
   <p class="mt-3 max-w-2xl leading-relaxed text-muted">
@@ -67,7 +67,9 @@ const products = [
     {sites.map((item) => <SiteCard item={item} />)}
   </div>
 
-  <h3 class="mt-16 text-xl font-bold sm:text-2xl">Produtos que eu construí do zero</h3>
+  {/* A second H2: it is a sibling topic of "Sites que eu fiz", not a child of
+      it, and the SiteCard names below it are the H3s. */}
+  <h2 class="mt-16 text-xl font-bold sm:text-2xl">Produtos que eu construí do zero</h2>
   <p class="mt-3 max-w-2xl leading-relaxed text-muted">
     Quando o problema é maior que uma página, eu vou até o fim. Os três estão no ar e você pode
     entrar e conferir.

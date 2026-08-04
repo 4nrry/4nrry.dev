@@ -22,9 +22,10 @@ const { item, wide = false } = Astro.props;
 <article class:list={['card reveal overflow-hidden', wide && 'sm:flex sm:items-stretch']}>
   <a
     href={item.href}
+    target="_blank"
     rel="noopener"
     class:list={['block', wide && 'sm:w-1/2 sm:shrink-0']}
-    aria-label={`Abrir o site da ${item.name}`}
+    aria-label={`Abrir o site da ${item.name} (abre em nova aba)`}
   >
     <Image
       src={item.image}
@@ -49,6 +50,7 @@ const { item, wide = false } = Astro.props;
             <a
               class="underline underline-offset-2 transition-colors hover:text-accent-bright"
               href={item.partner.href}
+              target="_blank"
               rel="noopener"
             >
               {item.partner.label}
@@ -60,8 +62,10 @@ const { item, wide = false } = Astro.props;
     <p class="mt-3 text-sm leading-relaxed text-muted">{item.body}</p>
     <a
       href={item.href}
+      target="_blank"
       rel="noopener"
       class="mt-4 inline-block font-mono text-sm text-accent-bright transition-colors hover:text-accent"
+      aria-label={`Ver o site no ar: ${item.label} (abre em nova aba)`}
     >
       ver o site no ar: {item.label} →
     </a>
