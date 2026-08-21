@@ -30,8 +30,15 @@ const { item, wide = false } = Astro.props;
     <Image
       src={item.image}
       alt={`Página inicial do site da ${item.name}`}
-      widths={[640, 1280]}
-      sizes="(min-width: 640px) 512px, 100vw"
+      {/*
+        `100vw` was a 50px overstatement — the slot is the viewport minus the
+        section's px-6 and the card border — and with only 640 and 1280 to
+        choose from, that lie sent every DPR-2 phone to the 1280w file. The
+        rungs below give the browser somewhere to land: two columns from sm,
+        capped by max-w-5xl at 1024.
+      */}
+      widths={[400, 512, 640, 768, 1024, 1280]}
+      sizes="(min-width: 1024px) 478px, (min-width: 640px) 48vw, calc(100vw - 50px)"
       loading="lazy"
       class:list={[
         'aspect-[8/5] w-full object-cover object-top transition-opacity hover:opacity-90',
@@ -64,7 +71,7 @@ const { item, wide = false } = Astro.props;
       href={item.href}
       target="_blank"
       rel="noopener"
-      class="mt-4 inline-block font-mono text-sm text-accent-bright transition-colors hover:text-accent"
+      class="-mb-2 mt-2 inline-flex min-h-11 items-center font-mono text-sm text-accent-bright transition-colors hover:text-accent"
       aria-label={`Ver o site no ar: ${item.label} (abre em nova aba)`}
     >
       ver o site no ar: {item.label} →

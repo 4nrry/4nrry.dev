@@ -28,8 +28,10 @@ const en = {
     replay: 'replay',
     themeToLight: 'Switch to the light theme',
     themeToDark: 'Switch to the dark theme',
+    // The drawn window shortens on a narrow screen to keep the cells readable,
+    // so the copy points at the table for the full two years.
     caption:
-      'Each cell is one day of the last two years, synced live from the GitHub API. Most of this work lives in private repositories; the totals count it anyway.',
+      'Each cell is one day, synced live from the GitHub API. A narrow screen gets a shorter window so the cells stay readable; the table below always holds the full two years. Most of this work lives in private repositories; the totals count it anyway.',
     tableSummary: 'data table: contributions by month',
     tableMonth: 'month',
     tableContributions: 'contributions',
@@ -93,6 +95,8 @@ const en = {
     title: 'The weekly rhythm',
     intro:
       "Contributions by weekday, month by month. GitHub's calendar is daily, so this is as granular as honesty allows.",
+    tableSummary: 'data table: weekday by month',
+    tableDay: 'day',
   },
   languages: {
     title: 'Materials',
@@ -160,7 +164,7 @@ const pt: typeof en = {
     themeToLight: 'Mudar para o tema claro',
     themeToDark: 'Mudar para o tema escuro',
     caption:
-      'Cada célula é um dia dos últimos dois anos, sincronizado ao vivo da API do GitHub. A maior parte desse trabalho vive em repositórios privados; os totais contam mesmo assim.',
+      'Cada célula é um dia, sincronizado ao vivo da API do GitHub. Em tela estreita a janela desenhada encurta pras células continuarem legíveis; a tabela abaixo sempre tem os dois anos inteiros. A maior parte desse trabalho vive em repositórios privados; os totais contam mesmo assim.',
     tableSummary: 'tabela: contribuições por mês',
     tableMonth: 'mês',
     tableContributions: 'contribuições',
@@ -224,6 +228,8 @@ const pt: typeof en = {
     title: 'O ritmo semanal',
     intro:
       'Contribuições por dia da semana, mês a mês. O calendário do GitHub é diário, então este é o máximo de granularidade que a honestidade permite.',
+    tableSummary: 'tabela: dia da semana por mês',
+    tableDay: 'dia',
   },
   languages: {
     title: 'Materiais',

@@ -30,35 +30,35 @@ const t = ui[resolveLocale(Astro.currentLocale)].systems;
     </div>
 
     <figure class="mt-8">
-      <div class="overflow-x-auto">
-        <svg viewBox="0 0 640 240" class="w-full min-w-[560px]" role="img" aria-label={t.oc.aria}>
-          <g font-family="JetBrains Mono, monospace" font-size="11">
+      <div data-scroll-x>
+        <svg viewBox="0 0 640 240" class="w-full min-w-[640px]" role="img" aria-label={t.oc.aria}>
+          <g font-family="JetBrains Mono, monospace" font-size="12">
             <rect x="8" y="88" width="110" height="64" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="63" y="115" text-anchor="middle" fill="var(--color-text)">SolidJS UI</text>
-            <text x="63" y="132" text-anchor="middle" fill="var(--color-faint)" font-size="9">WebView</text>
+            <text x="63" y="132" text-anchor="middle" fill="var(--color-faint)" font-size="10">WebView</text>
 
             <rect x="180" y="28" width="250" height="184" rx="6" fill="var(--color-card-deep)" stroke="var(--color-accent)"/>
-            <text x="196" y="50" fill="var(--color-accent)" font-size="10">Rust core</text>
+            <text x="196" y="50" fill="var(--color-accent)" font-size="11">Rust core</text>
             <rect x="200" y="60" width="210" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="305" y="77" text-anchor="middle" fill="var(--color-text)" font-size="10">shared types</text>
+            <text x="305" y="77" text-anchor="middle" fill="var(--color-text)" font-size="11">shared types</text>
             <rect x="200" y="96" width="210" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="305" y="113" text-anchor="middle" fill="var(--color-text)" font-size="10">git (embedded libgit2)</text>
+            <text x="305" y="113" text-anchor="middle" fill="var(--color-text)" font-size="11">git (embedded libgit2)</text>
             <rect x="200" y="132" width="210" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="305" y="149" text-anchor="middle" fill="var(--color-text)" font-size="10">agent detect (sysinfo)</text>
+            <text x="305" y="149" text-anchor="middle" fill="var(--color-text)" font-size="11">agent detect (sysinfo)</text>
             <rect x="200" y="168" width="210" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="305" y="185" text-anchor="middle" fill="var(--color-text)" font-size="10">SQLite persistence</text>
+            <text x="305" y="185" text-anchor="middle" fill="var(--color-text)" font-size="11">SQLite persistence</text>
 
             <rect x="476" y="56" width="152" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="552" y="74" text-anchor="middle" fill="var(--color-text)">git CLI</text>
-            <text x="552" y="89" text-anchor="middle" fill="var(--color-faint)" font-size="9">remote ops only</text>
+            <text x="552" y="89" text-anchor="middle" fill="var(--color-faint)" font-size="10">remote ops only</text>
 
             <rect x="476" y="110" width="152" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="552" y="128" text-anchor="middle" fill="var(--color-text)">process table</text>
-            <text x="552" y="143" text-anchor="middle" fill="var(--color-faint)" font-size="9">read, never spawn</text>
+            <text x="552" y="143" text-anchor="middle" fill="var(--color-faint)" font-size="10">read, never spawn</text>
 
             <rect x="476" y="164" width="152" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="552" y="182" text-anchor="middle" fill="var(--color-text)">opencherry.db</text>
-            <text x="552" y="197" text-anchor="middle" fill="var(--color-faint)" font-size="9">local state</text>
+            <text x="552" y="197" text-anchor="middle" fill="var(--color-faint)" font-size="10">local state</text>
 
             <g stroke="var(--color-faint)" stroke-width="1.5" fill="none">
               <path d="M118 120 H176"/>
@@ -72,11 +72,11 @@ const t = ui[resolveLocale(Astro.currentLocale)].systems;
               <path d="M472 126 l8 4 -7 5 z"/>
               <path d="M472 180 l8 4 -8 4 z"/>
             </g>
-            <text x="147" y="110" text-anchor="middle" fill="var(--color-faint)" font-size="9">Tauri IPC</text>
+            <text x="147" y="110" text-anchor="middle" fill="var(--color-faint)" font-size="10">Tauri IPC</text>
           </g>
         </svg>
       </div>
-      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">{t.oc.figcaption}</figcaption>
+      <figcaption class="mt-1 font-mono text-[0.7rem] sm:text-[0.65rem] text-faint">{t.oc.figcaption}</figcaption>
     </figure>
   </article>
 
@@ -101,28 +101,28 @@ const t = ui[resolveLocale(Astro.currentLocale)].systems;
     </div>
 
     <figure class="mt-8">
-      <div class="overflow-x-auto">
-        <svg viewBox="0 0 640 210" class="w-full min-w-[560px]" role="img" aria-label={t.site.aria}>
-          <g font-family="JetBrains Mono, monospace" font-size="11">
+      <div data-scroll-x>
+        <svg viewBox="0 0 640 210" class="w-full min-w-[640px]" role="img" aria-label={t.site.aria}>
+          <g font-family="JetBrains Mono, monospace" font-size="12">
             <rect x="8" y="20" width="110" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="63" y="44" text-anchor="middle" fill="var(--color-text)">GitHub API</text>
 
             <rect x="160" y="8" width="330" height="64" rx="6" fill="var(--color-card-deep)" stroke="var(--color-accent)"/>
-            <text x="176" y="28" fill="var(--color-accent)" font-size="10">sync (cron, every 6h)</text>
+            <text x="176" y="28" fill="var(--color-accent)" font-size="11">sync (cron, every 6h)</text>
             <rect x="176" y="36" width="86" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="219" y="53" text-anchor="middle" fill="var(--color-text)" font-size="10">allowlist</text>
+            <text x="219" y="53" text-anchor="middle" fill="var(--color-text)" font-size="11">allowlist</text>
             <rect x="272" y="36" width="90" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-border)"/>
-            <text x="317" y="53" text-anchor="middle" fill="var(--color-text)" font-size="10">aggregate</text>
+            <text x="317" y="53" text-anchor="middle" fill="var(--color-text)" font-size="11">aggregate</text>
             <rect x="372" y="36" width="102" height="26" rx="4" fill="var(--color-card)" stroke="var(--color-accent)"/>
-            <text x="423" y="53" text-anchor="middle" fill="var(--color-text)" font-size="10">sanitize gate</text>
+            <text x="423" y="53" text-anchor="middle" fill="var(--color-text)" font-size="11">sanitize gate</text>
 
             <rect x="530" y="20" width="102" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="581" y="38" text-anchor="middle" fill="var(--color-text)">KV</text>
-            <text x="581" y="53" text-anchor="middle" fill="var(--color-faint)" font-size="9">one JSON doc</text>
+            <text x="581" y="53" text-anchor="middle" fill="var(--color-faint)" font-size="10">one JSON doc</text>
 
             <rect x="530" y="130" width="102" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="581" y="148" text-anchor="middle" fill="var(--color-text)">/api/*.json</text>
-            <text x="581" y="163" text-anchor="middle" fill="var(--color-faint)" font-size="9">ETag + SWR</text>
+            <text x="581" y="163" text-anchor="middle" fill="var(--color-faint)" font-size="10">ETag + SWR</text>
 
             <rect x="300" y="130" width="130" height="40" rx="6" fill="var(--color-card)" stroke="var(--color-border)"/>
             <text x="365" y="154" text-anchor="middle" fill="var(--color-text)">this page</text>
@@ -141,11 +141,11 @@ const t = ui[resolveLocale(Astro.currentLocale)].systems;
               <path d="M577 126 l4 8 4 -8 z"/>
               <path d="M434 146 l-8 4 8 4 z"/>
             </g>
-            <text x="176" y="92" fill="var(--color-faint)" font-size="10">violation = no publish, the last good dataset keeps serving</text>
+            <text x="176" y="92" fill="var(--color-faint)" font-size="11">violation = no publish, the last good dataset keeps serving</text>
           </g>
         </svg>
       </div>
-      <figcaption class="mt-1 font-mono text-[0.65rem] text-faint">{t.site.figcaption}</figcaption>
+      <figcaption class="mt-1 font-mono text-[0.7rem] sm:text-[0.65rem] text-faint">{t.site.figcaption}</figcaption>
     </figure>
   </article>
 

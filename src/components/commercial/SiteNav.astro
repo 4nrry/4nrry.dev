@@ -2,7 +2,7 @@
 import ThemeToggle from '../ThemeToggle.astro';
 
 // Anchors follow the order the sections appear in on the page. Every id here
-// carries scroll-mt-20 so the sticky bar never covers the heading it lands on.
+// carries scroll-mt-24 md:scroll-mt-20, which clears the bar at both heights.
 const links = [
   { href: '#servicos', label: 'serviços' },
   { href: '#projetos', label: 'projetos' },
@@ -17,9 +17,9 @@ const links = [
   <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-3">
     {/* Tagline and the portfolio link wait for lg: between md and lg the nav
         anchors appear, and all four together overflow the bar. */}
-    <a href="#top" class="font-mono text-sm whitespace-nowrap">
+    <a href="#top" class="-my-3 inline-flex min-h-11 items-center font-mono text-sm whitespace-nowrap">
       <span class="font-bold">Anrry Petrin</span>
-      <span class="hidden text-faint lg:inline"> · desenvolvimento sob medida</span>
+      <span class="hidden text-faint lg:inline">&nbsp;· desenvolvimento sob medida</span>
     </a>
 
     <nav aria-label="Seções da página" class="hidden md:block">
@@ -45,4 +45,28 @@ const links = [
       <ThemeToggle />
     </div>
   </div>
+
+  {/*
+    Below md the anchors above are hidden, which left a phone paying 45px of
+    fixed height for a bar that could not take it anywhere. Same four links as a
+    strip; it scrolls sideways only on the narrowest screens, where the mask
+    from [data-scroll-x] shows there is more. The negative margin keeps the row
+    the height of its text while each link still owns a 40px target.
+  */}
+  <nav aria-label="Atalhos das seções" class="border-t border-border/50 md:hidden">
+    <ul class="mx-auto flex max-w-5xl items-center gap-1 px-5 font-mono text-[0.7rem]" data-scroll-x>
+      {
+        links.map((link) => (
+          <li>
+            <a
+              class="-my-1.5 inline-flex min-h-10 items-center whitespace-nowrap px-2.5 text-muted transition-colors hover:text-accent-bright"
+              href={link.href}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
 </header>

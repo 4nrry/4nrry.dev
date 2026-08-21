@@ -37,24 +37,37 @@ export function formatInt(value: number): string {
 /**
  * DPR-correct canvas sizing. Returns a context scaled so drawing code works
  * in CSS pixels. Re-renders (at the last progress) when the element resizes.
+ *
+ * `cssHeight` may be a function of the current CSS width, for charts whose
+ * proportions follow the width — the calendar and the weekday heatmap both
+ * pick a cell size from the space they get. A frozen height was a real bug:
+ * rotating a phone widened the terrain projection while the box stayed at the
+ * portrait height, and the tall columns clipped.
  */
 export function setupCanvas(
   canvas: HTMLCanvasElement,
-  cssHeight: number,
+  cssHeight: number | ((cssWidth: number) => number),
   onResize?: () => void,
 ): CanvasRenderingContext2D {
   const context = canvas.getContext('2d');
   if (!context) throw new Error('canvas 2d context unavailable');
+  const measure = () => canvas.clientWidth || canvas.parentElement?.clientWidth || 600;
+  let lastWidth = -1;
   const apply = () => {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const width = canvas.clientWidth || canvas.parentElement?.clientWidth || 600;
+    const width = measure();
+    lastWidth = width;
+    const height = typeof cssHeight === 'function' ? cssHeight(width) : cssHeight;
     canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(cssHeight * dpr);
-    canvas.style.height = `${cssHeight}px`;
+    canvas.height = Math.round(height * dpr);
+    canvas.style.height = `${height}px`;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
   apply();
+  // Width is the only input, and writing the height back would otherwise make
+  // the observer re-fire on its own output.
   const observer = new ResizeObserver(() => {
+    if (measure() === lastWidth) return;
     apply();
     onResize?.();
   });
@@ -191,30 +204,79 @@ function ensureTooltip(): HTMLDivElement {
   return tooltip;
 }
 
+/** Canvases with a tooltip, so one document-level listener can dismiss it. */
+const tooltipCanvases = new Set<HTMLCanvasElement>();
+let dismissWired = false;
+
+function hideTooltip(): void {
+  if (tooltip) tooltip.dataset.show = 'false';
+}
+
+/**
+ * A tap anywhere that is not a charted canvas closes the tooltip, and so does
+ * any scroll — the element is position:fixed, so it would otherwise hang in
+ * place while the page moves under it. Wired once for every chart.
+ */
+function wireDismiss(): void {
+  if (dismissWired) return;
+  dismissWired = true;
+  document.addEventListener('pointerdown', (event) => {
+    if (!tooltipCanvases.has(event.target as HTMLCanvasElement)) hideTooltip();
+  });
+  window.addEventListener('scroll', hideTooltip, { passive: true });
+}
+
 export function attachTooltip(
   canvas: HTMLCanvasElement,
   resolve: (x: number, y: number) => string | null,
 ): void {
   const element = ensureTooltip();
-  canvas.addEventListener('pointermove', (event) => {
+  tooltipCanvases.add(canvas);
+  wireDismiss();
+
+  const labelAt = (event: PointerEvent): string | null => {
     const rect = canvas.getBoundingClientRect();
-    const label = resolve(event.clientX - rect.left, event.clientY - rect.top);
-    if (!label) {
-      element.dataset.show = 'false';
-      return;
-    }
+    return resolve(event.clientX - rect.left, event.clientY - rect.top);
+  };
+
+  /**
+   * Positions the tooltip and then clamps it inside the viewport. The flip
+   * alone was not enough: once the label is wider than the gap between the
+   * pointer and the left edge — routine on a 320px screen, where a repo label
+   * runs ~250px — the flipped position goes negative and the text is cut off
+   * the other side.
+   */
+  const show = (label: string, clientX: number, clientY: number, above: boolean): void => {
     element.textContent = label;
     element.dataset.show = 'true';
     const margin = 12;
-    let left = event.clientX + margin;
-    let top = event.clientY + margin;
     const { width, height } = element.getBoundingClientRect();
-    if (left + width > window.innerWidth - 8) left = event.clientX - width - margin;
-    if (top + height > window.innerHeight - 8) top = event.clientY - height - margin;
-    element.style.left = `${left}px`;
-    element.style.top = `${top}px`;
+    let left = clientX + margin;
+    // Above the finger on touch: below it, the hand covers the cell being read.
+    let top = above ? clientY - height - 24 : clientY + margin;
+    if (left + width > window.innerWidth - 8) left = clientX - width - margin;
+    if (!above && top + height > window.innerHeight - 8) top = clientY - height - margin;
+    element.style.left = `${Math.min(Math.max(left, 8), Math.max(8, window.innerWidth - width - 8))}px`;
+    element.style.top = `${Math.min(Math.max(top, 8), Math.max(8, window.innerHeight - height - 8))}px`;
+  };
+
+  canvas.addEventListener('pointermove', (event) => {
+    // Touch is served by pointerdown below; a drag would drag the label along
+    // under the finger instead of reading a cell.
+    if (event.pointerType === 'touch') return;
+    const label = labelAt(event);
+    if (!label) return hideTooltip();
+    show(label, event.clientX, event.clientY, false);
   });
-  canvas.addEventListener('pointerleave', () => {
-    element.dataset.show = 'false';
+  canvas.addEventListener('pointerleave', hideTooltip);
+
+  // Touch has no hover, so a tap is the whole interaction. Without this the
+  // charts carry no readout at all on a phone.
+  canvas.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'touch') return;
+    const label = labelAt(event);
+    if (!label) return hideTooltip();
+    show(label, event.clientX, event.clientY, true);
   });
+  canvas.addEventListener('pointercancel', hideTooltip);
 }

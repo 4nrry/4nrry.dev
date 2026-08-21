@@ -8,6 +8,9 @@ interface Props {
 const { toLight = 'Mudar para o tema claro', toDark = 'Mudar para o tema escuro' } = Astro.props;
 ---
 
+{/* The icon is 16px, which used to be the whole tap target. h-11 w-11 gives it a
+    real one; -my-3 hands the vertical half straight back to the layout, so no
+    row that hosts this button gets taller than its own text. */}
 <button
   type="button"
   data-theme-toggle
@@ -15,7 +18,7 @@ const { toLight = 'Mudar para o tema claro', toDark = 'Mudar para o tema escuro'
   data-label-dark={toDark}
   aria-label={toLight}
   aria-pressed="false"
-  class="text-faint transition-colors hover:text-accent-bright"
+  class="-my-3 grid h-11 w-11 place-items-center self-center text-faint transition-colors hover:text-accent-bright"
 >
   {/* Sun in dark mode (click for light), moon in light mode. */}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4 dark-icon" aria-hidden="true">

@@ -110,6 +110,20 @@ html {
   border-radius: 0.75rem;
 }
 
+/*
+ * Hero counters. Three equal tracks inside px-6 give (100vw - 72px) / 3 per
+ * track below sm, and a monospace figure of N characters needs N * 0.6em, so a
+ * six-digit total fits when the type is at most track / 3.6 — which is the
+ * divisor below. Sizing off the track instead of off a breakpoint is what keeps
+ * the number inside its column at 320px: a fixed text-3xl overflowed by 10px
+ * and swallowed the gutter, and would collide outright once contributions pass
+ * 9,999. The upper bound is text-4xl, the size this always had from sm up.
+ */
+.counter-figure {
+  font-size: clamp(1.375rem, calc((100vw - 72px) / 10.8), 2.25rem);
+  line-height: 1.2;
+}
+
 /* Skeleton shimmer while the dataset is loading */
 [data-pending="true"] .shimmer {
   position: relative;
@@ -130,19 +144,28 @@ html {
   }
 }
 
-/* Chart tooltip (single shared element, positioned by anim.ts) */
+/*
+ * Chart tooltip (single shared element, positioned by anim.ts).
+ *
+ * It used to be `white-space: nowrap` with no width cap, so its box was sized
+ * purely by the label and never shrank with the viewport: a repo label runs
+ * ~254px, and on a 320px screen the edge-flip in attachTooltip then pushed it
+ * off the *left* edge instead. The cap plus wrapping keeps it on screen; the
+ * clamp in attachTooltip handles the position.
+ */
 .viz-tooltip {
   position: fixed;
   z-index: 50;
   pointer-events: none;
+  max-width: calc(100vw - 1rem);
   background: var(--color-card-deep);
   border: 1px solid var(--color-border);
   border-radius: 0.375rem;
   padding: 0.375rem 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  line-height: 1.45;
   color: var(--color-text);
-  white-space: nowrap;
   opacity: 0;
   transition: opacity 120ms ease;
 }
@@ -150,18 +173,24 @@ html {
   opacity: 1;
 }
 
-/* Data tables tucked under charts */
+/*
+ * Data tables tucked under charts. These are the non-pointer path to the same
+ * numbers the tooltips carry, so the disclosure needs a real tap target: the
+ * bare summary was 17px tall. It is already full-width, so vertical padding
+ * alone takes it past 40px.
+ */
 .viz-table summary {
   cursor: pointer;
+  padding: 0.625rem 0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--color-faint);
 }
 .viz-table summary:hover {
   color: var(--color-muted);
 }
 .viz-table table {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--color-muted);
@@ -172,6 +201,45 @@ html {
   border: 1px solid var(--color-border);
   padding: 0.25rem 0.5rem;
   text-align: left;
+}
+
+/*
+ * Horizontally scrollable regions.
+ *
+ * On a desktop these never actually scroll — the box is wider than what it
+ * holds — so the gesture exists only on a phone, which is also the one place
+ * the browser draws no scrollbar. Nothing suggested there was more to the
+ * right. scroll-hint.ts sets data-hint to whichever edge still has content
+ * behind it and the mask fades that edge; when the box does not overflow, the
+ * attribute is absent and no mask is composited at all.
+ */
+[data-scroll-x] {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+[data-scroll-x][data-hint="end"] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent 100%);
+}
+[data-scroll-x][data-hint="start"] {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 2.5rem);
+  mask-image: linear-gradient(to right, transparent 0, #000 2.5rem);
+}
+[data-scroll-x][data-hint="both"] {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 2.5rem,
+    #000 calc(100% - 2.5rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 2.5rem,
+    #000 calc(100% - 2.5rem),
+    transparent 100%
+  );
 }
 
 /*

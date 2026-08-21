@@ -21,9 +21,11 @@ const t = ui[resolveLocale(Astro.currentLocale)].repos;
   <canvas id="viz-repos" class="shimmer mt-4 w-full rounded-md"></canvas>
   <details class="viz-table mt-3">
     <summary>{t.tableSummary}</summary>
-    <table>
-      <thead><tr><th>{t.tableRepo}</th><th>{t.tableOrg}</th><th>{t.tablePrs}</th></tr></thead>
-      <tbody id="table-repos-body"></tbody>
-    </table>
+    <div data-scroll-x>
+      <table>
+        <thead><tr><th>{t.tableRepo}</th><th>{t.tableOrg}</th><th>{t.tablePrs}</th></tr></thead>
+        <tbody id="table-repos-body"></tbody>
+      </table>
+    </div>
   </details>
 </section>

@@ -21,7 +21,7 @@ import portrait from '../../assets/portrait.jpg';
         <WhatsAppButton />
         <a
           href="#servicos"
-          class="font-mono text-sm text-muted transition-colors hover:text-accent-bright"
+          class="-my-3 inline-flex min-h-11 items-center font-mono text-sm text-muted transition-colors hover:text-accent-bright"
           >ver o que eu faço ↓</a
         >
       </div>
@@ -30,7 +30,10 @@ import portrait from '../../assets/portrait.jpg';
       <Image
         src={portrait}
         alt="Anrry Petrin"
-        widths={[192, 448]}
+        {/* 288 is the DPR-3 rung for the 96px mobile slot; without it those
+            phones jumped to the 448w file. 460x460 is the source, so 448 stays
+            the ceiling. */}
+        widths={[192, 288, 448]}
         sizes="(min-width: 768px) 224px, 96px"
         loading="eager"
         class="h-24 w-24 rounded-full object-cover ring-2 ring-accent/50 md:h-56 md:w-56"

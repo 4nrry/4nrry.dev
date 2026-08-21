@@ -198,10 +198,14 @@ export function mountTerrain(
     figure.hidden = false;
     weeks = weeksForViewport();
     model = buildTerrain(calendar, weeks);
-    // setupCanvas captures the height, so it is fixed for this mount. Crossing
-    // the breakpoint later still reframes correctly: the projection is
-    // width-bound, so the terrain shrinks inside the box rather than clipping.
-    context = setupCanvas(canvas!, canvasHeightFor(figure.clientWidth || 976, weeks), repaint);
+    // The height follows the width on every resize. It used to be captured once
+    // at mount, so rotating a phone to landscape widened the projection while
+    // the box kept its portrait height and the tall columns clipped.
+    context = setupCanvas(
+      canvas!,
+      (width) => canvasHeightFor(width, weeksForViewport()),
+      repaint,
+    );
 
     if (motion.matches) still();
     else if (onScreen) start();

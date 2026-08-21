@@ -7,11 +7,13 @@ const t = ui[resolveLocale(Astro.currentLocale)].oss;
   <p class="eyebrow">open-source</p>
   <h2 class="mt-2 font-mono text-2xl sm:text-3xl font-bold">{t.title}</h2>
   <p class="mt-3 max-w-2xl text-muted">{t.intro}</p>
+  {/* h-48 is the two-column height. In the single-column mobile layout the real
+      card runs about 40% taller, so the page jumped when the dataset landed. */}
   <div id="oss-grid" class="mt-8 grid gap-4 md:grid-cols-2">
-    <div class="card shimmer h-48"></div>
-    <div class="card shimmer h-48"></div>
-    <div class="card shimmer h-48"></div>
-    <div class="card shimmer h-48"></div>
-    <div class="card shimmer h-48"></div>
+    <div class="card shimmer h-72 md:h-48"></div>
+    <div class="card shimmer h-72 md:h-48"></div>
+    <div class="card shimmer h-72 md:h-48"></div>
+    <div class="card shimmer h-72 md:h-48"></div>
+    <div class="card shimmer h-72 md:h-48"></div>
   </div>
 </section>

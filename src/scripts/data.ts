@@ -1,6 +1,7 @@
 import { SCHEMA_VERSION, type PortfolioDataset } from '../../shared/schema';
 import { formatInt, play, playOnView, reducedMotion, themeColor } from './anim';
 import { wireThemeToggle } from './theme';
+import { wireScrollHints } from './scroll-hint';
 import { createCalendarReplay } from './calendar-replay';
 import { createLanguagesViz } from './languages-viz';
 import { createRepoBars, type RepoBarRow } from './repo-bars';
@@ -38,6 +39,8 @@ const T = IS_PT
       upstreamPrs: (n: string) => `${n} PRs merged upstream`,
       onNpm: 'no npm',
       ariaCalendar: (n: string) => `Calendário diário de contribuições: ${n} contribuições nos últimos dois anos.`,
+      ariaCalendarWindow: (n: string, weeks: number, total: number) =>
+        `Calendário diário de contribuições: as ${weeks} semanas mais recentes de ${total}; a tabela abaixo tem a janela inteira. ${n} contribuições no total.`,
       ariaYears: (a: string, b: string) => `Contribuições por ano: ${a} e ${b}.`,
       ariaRepos: (n: number) => `Top ${n} repositórios por pull requests autorados.`,
       ariaWeekday: 'Contribuições por dia da semana em cada mês da janela.',
@@ -65,6 +68,8 @@ const T = IS_PT
       upstreamPrs: (n: string) => `${n} merged upstream PRs`,
       onNpm: 'on npm',
       ariaCalendar: (n: string) => `Daily contribution calendar: ${n} contributions over the last two years.`,
+      ariaCalendarWindow: (n: string, weeks: number, total: number) =>
+        `Daily contribution calendar: the most recent ${weeks} of ${total} weeks; the table below covers the whole window. ${n} contributions in total.`,
       ariaYears: (a: string, b: string) => `Yearly contributions: ${a} and ${b}.`,
       ariaRepos: (n: number) => `Top ${n} repositories by authored pull requests.`,
       ariaWeekday: 'Contributions by weekday across each month of the window.',
@@ -122,10 +127,11 @@ function bootHero(data: PortfolioDataset, monthLabels: string[]): void {
   const streak = byId('counter-streak');
   if (!canvas || !contributions || !prsMerged || !streak) return;
 
+  canvas.setAttribute('role', 'img');
+  const total = formatInt(data.totals.contributions);
   const viz = createCalendarReplay(canvas, {
     calendar: data.calendar,
     monthLabels,
-    monthlyTotals: data.monthlyTotals,
     counters: {
       contributions: { element: contributions, target: data.totals.contributions },
       prsMerged: { element: prsMerged, target: data.totals.prsMerged },
@@ -134,9 +140,11 @@ function bootHero(data: PortfolioDataset, monthLabels: string[]): void {
     ticker: byId('calendar-ticker'),
     words: T.tickerWords,
     weekdayGutter: T.weekdayGutter,
+    // The drawn window is narrower than the dataset on a phone, so the
+    // accessible name has to say which one the reader is getting.
+    describeWindow: (weeks, weeksTotal) =>
+      weeks >= weeksTotal ? T.ariaCalendar(total) : T.ariaCalendarWindow(total, weeks, weeksTotal),
   });
-  canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', T.ariaCalendar(formatInt(data.totals.contributions)));
   viz.render(reducedMotion() ? 1 : 0);
   // The hero replays on load: the page opens on its thesis. If the tab is in
   // the background, hold the replay until it becomes visible so the animation
@@ -192,10 +200,13 @@ function bootOrgs(data: PortfolioDataset): void {
     card.className = 'card p-6 flex flex-col gap-4 org-card';
     card.style.setProperty('--org-accent', `var(${accentVar})`);
     const topRepoMax = Math.max(1, ...org.topRepos.map((r) => r.prs));
+    // flex-wrap, not a bare justify-between: in the single-column mobile layout
+    // both halves shrank at once and each broke onto two lines. Now the counts
+    // drop below the name instead.
     card.innerHTML = `
-      <header class="flex items-baseline justify-between gap-3">
+      <header class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h3 class="font-mono text-lg font-bold" style="color: var(--org-accent)">${org.displayName}</h3>
-        <p class="font-mono text-xs text-faint">${formatInt(org.prCount)} ${T.prsSuffix} · ${formatInt(org.repoCount)} ${T.reposSuffix}</p>
+        <p class="font-mono text-xs whitespace-nowrap text-faint">${formatInt(org.prCount)} ${T.prsSuffix} · ${formatInt(org.repoCount)} ${T.reposSuffix}</p>
       </header>
       <p class="text-sm leading-relaxed text-muted">${T.pickNarrative(org)}</p>
       <ul class="mt-auto flex flex-col gap-2" aria-label="${T.topReposAria}">
@@ -267,6 +278,22 @@ function bootWeekday(data: PortfolioDataset, monthLabels: string[]): void {
     section,
     createWeekdayHeatmap(canvas, data.weekdayByMonth, monthLabels, T.rowLabels, T.tickerWords.many),
   );
+
+  // The only other way into these numbers was the tooltip, which needs a
+  // pointer. One row per weekday, one column per month, same shape as the chart.
+  const head = byId('table-weekday-head');
+  const body = byId('table-weekday-body');
+  if (head && body) {
+    head.insertAdjacentHTML('beforeend', monthLabels.map((label) => `<th>${label}</th>`).join(''));
+    body.innerHTML = T.rowLabels
+      .map(
+        (day, row) =>
+          `<tr><td>${day}</td>${monthLabels
+            .map((_, col) => `<td>${formatInt(data.weekdayByMonth[row]?.[col] ?? 0)}</td>`)
+            .join('')}</tr>`,
+      )
+      .join('');
+  }
 }
 
 function bootLanguages(data: PortfolioDataset): void {
@@ -306,21 +333,23 @@ function bootOpenSource(data: PortfolioDataset): void {
     if (card.npmPackage) badges.push(T.onNpm);
     const article = document.createElement('article');
     article.className = 'card p-6 flex flex-col gap-3';
+    // Same wrapping fix as the org header, plus real tap targets: the title link
+    // was 21px tall and the repo links 15.6px with 8px between them.
     article.innerHTML = `
-      <header class="flex items-baseline justify-between gap-3">
+      <header class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h3 class="font-mono text-base font-bold">
-          <a class="hover:text-accent-bright transition-colors" href="${card.url}" rel="noopener">${card.title}</a>
+          <a class="-my-2.5 inline-block py-2.5 hover:text-accent-bright transition-colors" href="${card.url}" rel="noopener">${card.title}</a>
         </h3>
-        ${badges.length ? `<p class="font-mono text-xs text-accent">${badges.join(' · ')}</p>` : ''}
+        ${badges.length ? `<p class="font-mono text-xs whitespace-nowrap text-accent">${badges.join(' · ')}</p>` : ''}
       </header>
       <p class="text-sm leading-relaxed text-muted">${T.pickBlurb(card)}</p>
-      <footer class="mt-auto flex flex-wrap items-center gap-2">
-        ${card.tech.map((tech) => `<span class="font-mono text-[0.65rem] text-faint border border-border rounded px-1.5 py-0.5">${tech}</span>`).join('')}
+      <footer class="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1">
+        ${card.tech.map((tech) => `<span class="font-mono text-[0.7rem] text-faint border border-border rounded px-1.5 py-1">${tech}</span>`).join('')}
         <span class="flex-1"></span>
         ${card.repos
           .map(
             (repo) =>
-              `<a class="font-mono text-[0.65rem] text-faint hover:text-muted underline underline-offset-2" href="https://github.com/${repo}" rel="noopener">${repo}</a>`,
+              `<a class="inline-flex min-h-11 items-center px-1 font-mono text-[0.7rem] text-faint hover:text-muted underline underline-offset-2 transition-colors" href="https://github.com/${repo}" rel="noopener">${repo}</a>`,
           )
           .join('')}
       </footer>`;
@@ -329,8 +358,6 @@ function bootOpenSource(data: PortfolioDataset): void {
 }
 
 async function boot(): Promise<void> {
-  wireLangToggle();
-  wireThemeToggle();
   const data = await fetchPortfolio();
   const syncChip = byId('sync-chip');
   if (!data) {
@@ -358,4 +385,9 @@ async function boot(): Promise<void> {
   bootOpenSource(data);
 }
 
+// Wired once, outside boot: boot retries itself while the dataset is cold, and
+// these three touch static markup that is already on the page.
+wireLangToggle();
+wireThemeToggle();
+wireScrollHints();
 boot();

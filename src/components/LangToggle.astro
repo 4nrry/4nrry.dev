@@ -1,20 +1,27 @@
 ---
 import { resolveLocale } from '../i18n/ui';
 const locale = resolveLocale(Astro.currentLocale);
+
+// EN and PT were 14x16px targets six pixels apart. min-h-11 plus px-2 gives each
+// one a real box; -my-3 on the row hands the extra height back, so the header
+// and footer rows stay exactly as tall as their text.
+const link = 'inline-flex min-h-11 items-center px-2 transition-colors';
 ---
 
-<nav class="flex items-center gap-1.5 font-mono text-xs" aria-label="Language">
+<nav class="-my-3 flex items-center self-center font-mono text-xs" aria-label="Language">
   <a
     href="/dev/"
     data-lang="en"
     aria-current={locale === 'en' ? 'page' : undefined}
-    class={locale === 'en' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted'}>EN</a
+    class:list={[link, locale === 'en' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted']}
+    >EN</a
   >
-  <span class="text-faint">·</span>
+  <span class="text-faint" aria-hidden="true">·</span>
   <a
     href="/pt/dev/"
     data-lang="pt"
     aria-current={locale === 'pt-BR' ? 'page' : undefined}
-    class={locale === 'pt-BR' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted'}>PT</a
+    class:list={[link, locale === 'pt-BR' ? 'font-bold text-accent-bright' : 'text-faint hover:text-muted']}
+    >PT</a
   >
 </nav>
