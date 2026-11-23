@@ -24,7 +24,7 @@ function baseDataset(overrides: Partial<PortfolioDataset> = {}): PortfolioDatase
 describe('isAllowedRepo', () => {
   it('allows any repo under an allowlisted org', () => {
     expect(isAllowedRepo('smart-compost/whatever-new-repo')).toBe(true);
-    expect(isAllowedRepo('LOTVSFinance/lotvs-app-backend')).toBe(true);
+    expect(isAllowedRepo('lotvs-finance/lotvs-app-backend')).toBe(true);
     expect(isAllowedRepo('ocean-words/ocean-words')).toBe(true);
   });
 

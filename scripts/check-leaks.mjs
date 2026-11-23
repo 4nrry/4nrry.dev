@@ -6,7 +6,7 @@
  */
 import { readFile } from 'node:fs/promises';
 
-const ALLOWED_ORG_OWNERS = new Set(['smart-compost', 'LOTVSFinance', 'ocean-words']);
+const ALLOWED_ORG_OWNERS = new Set(['smart-compost', 'lotvs-finance', 'ocean-words']);
 const ALLOWED_EXACT_REPOS = new Set([
   '4nrry/opencherry',
   '4nrry/homebrew-tap',

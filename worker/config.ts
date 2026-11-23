@@ -9,7 +9,7 @@
 
 export const GITHUB_LOGIN = '4nrry';
 
-export const ALLOWED_ORG_OWNERS = ['smart-compost', 'LOTVSFinance', 'ocean-words'] as const;
+export const ALLOWED_ORG_OWNERS = ['smart-compost', 'lotvs-finance', 'ocean-words'] as const;
 
 export const ALLOWED_EXACT_REPOS = [
   '4nrry/opencherry',
@@ -37,7 +37,7 @@ export const ORG_META: Record<(typeof ALLOWED_ORG_OWNERS)[number], OrgMeta> = {
       'Onde minha carreira começou, como o único engenheiro. Hoje é uma plataforma completa de compostagem IoT: firmware C++ nos sensores, uma frota de microservices NestJS, três frontends web, um app React Native e infraestrutura gerenciada com Helm. No caminho, mentorei um estagiário, o Bruno, que hoje trabalha no meu nível.',
     accent: '#4ade80',
   },
-  LOTVSFinance: {
+  'lotvs-finance': {
     displayName: 'LOTVS Finance',
     narrative:
       'A fintech I started with André Franceschini (@franceschinii), a friend from college. TypeScript end to end: NestJS backend, React frontend and landing page. My single most PR-heavy repository lives here.',
