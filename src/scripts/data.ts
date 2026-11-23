@@ -10,7 +10,7 @@ import { createYearsRace } from './years-race';
 
 const ORG_CSS_VARS: Record<string, string> = {
   'smart-compost': '--color-org-smart',
-  LOTVSFinance: '--color-org-lotvs',
+  'lotvs-finance': '--color-org-lotvs',
   'ocean-words': '--color-org-ocean',
 };
 
