@@ -1,0 +1,70 @@
+{
+ "nome": "06-cafe",
+ "ilusao": "cafe wall",
+ "painel_px": [
+  440,
+  40,
+  1232,
+  460
+ ],
+ "casa_px": 44,
+ "fileiras": 9,
+ "colunas": 18,
+ "argamassa_px": 3,
+ "casa_clara": [
+  244,
+  178,
+  72
+ ],
+ "casa_escura": [
+  44,
+  9,
+  10
+ ],
+ "argamassa": [
+  136,
+  88,
+  39
+ ],
+ "L_estrela": {
+  "clara": 77.0,
+  "escura": 6.8,
+  "argamassa": 41.8
+ },
+ "argamassa_linhas_y": [
+  [
+   84,
+   87
+  ],
+  [
+   131,
+   134
+  ],
+  [
+   178,
+   181
+  ],
+  [
+   225,
+   228
+  ],
+  [
+   272,
+   275
+  ],
+  [
+   319,
+   322
+  ],
+  [
+   366,
+   369
+  ],
+  [
+   413,
+   416
+  ]
+ ],
+ "deslocamento_alternado_px": 22,
+ "pecas": []
+}

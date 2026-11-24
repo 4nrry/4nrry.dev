@@ -1,0 +1,10 @@
+{
+ "01-plano": {"txt": "de cima, casas de 100 px, rubro dominante, 3 pecas (base)"},
+ "02-rasa": {"txt": "so o angulo: perspectiva rasa"},
+ "03-isometrica": {"txt": "so o angulo: isometrica"},
+ "04-rente": {"txt": "so o angulo: rente ao tabuleiro, silhuetas"},
+ "05-sombra": {"txt": "ilusao: checker-shadow de Adelson (A = B por pixel)"},
+ "06-cafe": {"txt": "ilusao: cafe wall (linhas retas, parecem tortas)"},
+ "07-ambar": {"txt": "so a cor: ambar dominante"},
+ "08-posicao": {"txt": "so a densidade: posicao de meio de jogo, 8 pecas"}
+}

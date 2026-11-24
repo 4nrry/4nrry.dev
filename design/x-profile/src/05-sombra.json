@@ -1,0 +1,107 @@
+{
+ "ilusao": "checker-shadow de Adelson",
+ "luz": {
+  "lx": 1.1,
+  "lz": 0.7
+ },
+ "peca": "ambar-torre",
+ "altura_mundo_casas": 8.5,
+ "casa_clara_L": [
+  192,
+  64,
+  50
+ ],
+ "casa_escura_D": [
+  106,
+  35,
+  28
+ ],
+ "razao_por_canal": [
+  0.55208,
+  0.54688,
+  0.56
+ ],
+ "A_casa": [
+  10,
+  1
+ ],
+ "B_casa": [
+  8,
+  4
+ ],
+ "A_poligono_px": [
+  [
+   849.8,
+   427.0
+  ],
+  [
+   889.6,
+   427.0
+  ],
+  [
+   885.4,
+   384.1
+  ],
+  [
+   847.7,
+   384.1
+  ]
+ ],
+ "B_poligono_px": [
+  [
+   776.0,
+   310.9
+  ],
+  [
+   810.0,
+   310.9
+  ],
+  [
+   810.0,
+   279.3
+  ],
+  [
+   777.6,
+   279.3
+  ]
+ ],
+ "A_rgb_unicos_no_interior": [
+  [
+   106,
+   35,
+   28
+  ]
+ ],
+ "B_rgb_unicos_no_interior": [
+  [
+   106,
+   35,
+   28
+  ]
+ ],
+ "A_pixels": 548,
+ "B_pixels": 351,
+ "vizinhas_B_sombra_media": 0.962,
+ "vizinhas_A_luz_media": 1.0,
+ "candidatas": {
+  "A": 52,
+  "B": 6
+ },
+ "nome": "05-sombra",
+ "pecas": [
+  {
+   "peca": "ambar-torre",
+   "bbox": [
+    583,
+    41,
+    751,
+    345
+   ],
+   "base": [
+    667.0,
+    345.6
+   ],
+   "altura_px": 303.9
+  }
+ ]
+}
