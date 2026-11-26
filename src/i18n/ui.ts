@@ -111,12 +111,12 @@ const en = {
     title: 'How I got here',
     chapters: [
       {
-        title: 'Smart Compost, solo',
-        body: 'I joined a small composting startup as the only engineer. Firmware, backend, frontend: whatever the day needed.',
+        title: 'Smart Compost, from zero',
+        body: 'In 2024 I joined a small composting startup as an intern — and as its only developer. Firmware, backend, frontend: whatever the day needed.',
       },
       {
         title: 'The platform',
-        body: 'One repo became twenty-eight: C++ sensors, NestJS microservices, three frontends, a React Native app, Helm-managed infra.',
+        body: 'One repo became twenty-eight: C++ sensors, NestJS microservices, three frontends, a React Native app, infra on Docker Swarm with Traefik, Grafana and Loki.',
       },
       {
         title: 'Mentoring',
@@ -244,12 +244,12 @@ const pt: typeof en = {
     title: 'Como cheguei aqui',
     chapters: [
       {
-        title: 'Smart Compost, solo',
-        body: 'Entrei numa startup pequena de compostagem como o único engenheiro. Firmware, backend, frontend: o que o dia pedisse.',
+        title: 'Smart Compost, do zero',
+        body: 'Em 2024 entrei numa startup pequena de compostagem como estagiário — e como seu único desenvolvedor. Firmware, backend, frontend: o que o dia pedisse.',
       },
       {
         title: 'A plataforma',
-        body: 'Um repo virou vinte e oito: sensores C++, microservices NestJS, três frontends, um app React Native, infra gerenciada com Helm.',
+        body: 'Um repo virou vinte e oito: sensores C++, microservices NestJS, três frontends, um app React Native, infra em Docker Swarm com Traefik, Grafana e Loki.',
       },
       {
         title: 'Mentoria',
