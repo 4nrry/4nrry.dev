@@ -32,7 +32,7 @@ export const ORG_META: Record<(typeof ALLOWED_ORG_OWNERS)[number], OrgMeta> = {
   'smart-compost': {
     displayName: 'Smart Compost',
     narrative:
-      'Where my career started: I joined as its only developer and today I am the engineer responsible for the platform — a fleet of NestJS microservices, three web frontends, a React Native app and infrastructure on Docker Swarm with Traefik, Grafana and Loki. It monitors composting, gas and odor in real time, in production with customers; on the C++ sensor firmware I contributed the bridge to the software. Along the way I mentored an intern, Bruno, who now works at my level.',
+      'Where my career started: I joined as its only developer and today I am the engineer responsible for the platform — a fleet of NestJS microservices, three web frontends, a React Native app and infrastructure on Docker Swarm with Traefik, Grafana and Loki. It monitors composting, gas and odor in real time, in production with customers. I also contributed to the C++ sensor firmware’s interface with the software. Along the way I mentored an intern, Bruno, who now works at my level.',
     narrativePt:
       'Onde minha carreira começou: entrei como o único desenvolvedor e hoje sou o engenheiro responsável pela plataforma — uma frota de microservices NestJS, três frontends web, um app React Native e infraestrutura em Docker Swarm com Traefik, Grafana e Loki. Ela monitora compostagem, gases e odores em tempo real, em produção com clientes; no firmware C++ dos sensores, contribuí na ponte com o software. No caminho, mentorei um estagiário, o Bruno, que hoje trabalha no meu nível.',
     accent: '#4ade80',
